@@ -1,0 +1,52 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="BoekenDBModelStoreContainer" CdmEntityContainer="BoekenDBEntities">
+    <EntitySetMapping Name="Voorkeuren">
+      <EntityTypeMapping TypeName="BoekenDBModel.Voorkeur">
+        <MappingFragment StoreEntitySet="Voorkeuren">
+          <ScalarProperty Name="AuteurID" ColumnName="AuteurID" />
+          <ScalarProperty Name="GebruikerID" ColumnName="GebruikerID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Gebruikers">
+      <EntityTypeMapping TypeName="BoekenDBModel.Gebruiker">
+        <MappingFragment StoreEntitySet="Gebruikers">
+          <ScalarProperty Name="Paswoord" ColumnName="Paswoord" />
+          <ScalarProperty Name="GebruikerNaam" ColumnName="GebruikerNaam" />
+          <ScalarProperty Name="GebruikerID" ColumnName="GebruikerID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Boekens">
+      <EntityTypeMapping TypeName="BoekenDBModel.Boeken">
+        <MappingFragment StoreEntitySet="Boeken">
+          <ScalarProperty Name="Inhoud" ColumnName="Inhoud" />
+          <ScalarProperty Name="Genre" ColumnName="Genre" />
+          <ScalarProperty Name="Paginas" ColumnName="Paginas" />
+          <ScalarProperty Name="AuteurID" ColumnName="AuteurID" />
+          <ScalarProperty Name="Titel" ColumnName="Titel" />
+          <ScalarProperty Name="ISBN" ColumnName="ISBN" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Auteurs">
+      <EntityTypeMapping TypeName="BoekenDBModel.Auteur">
+        <MappingFragment StoreEntitySet="Auteurs">
+          <ScalarProperty Name="Biografie" ColumnName="Biografie" />
+          <ScalarProperty Name="Voornaam" ColumnName="Voornaam" />
+          <ScalarProperty Name="Achternaam" ColumnName="Achternaam" />
+          <ScalarProperty Name="AuteurID" ColumnName="AuteurID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <AssociationSetMapping Name="Voorkeuren1" TypeName="BoekenDBModel.Voorkeuren" StoreEntitySet="Voorkeuren">
+      <EndProperty Name="Gebruiker">
+        <ScalarProperty Name="GebruikerID" ColumnName="GebruikerID" />
+      </EndProperty>
+      <EndProperty Name="Auteur">
+        <ScalarProperty Name="AuteurID" ColumnName="AuteurID" />
+      </EndProperty>
+    </AssociationSetMapping>
+  </EntityContainerMapping>
+</Mapping>

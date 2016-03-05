@@ -1,0 +1,13 @@
+C:\Users\20002650\Documents\PXL\DotNetAdvanced\Exam\2016\BoekenApplication\BoekenData\bin\Debug\BoekenAuteursData.dll
+C:\Users\20002650\Documents\PXL\DotNetAdvanced\Exam\2016\BoekenApplication\BoekenData\bin\Debug\BoekenAuteursData.pdb
+C:\Users\20002650\Documents\PXL\DotNetAdvanced\Exam\2016\BoekenApplication\BoekenData\obj\Debug\BoekenAuteursData.dll
+C:\Users\20002650\Documents\PXL\DotNetAdvanced\Exam\2016\BoekenApplication\BoekenData\obj\Debug\BoekenAuteursData.pdb
+C:\Users\20002650\Documents\PXL\DotNetAdvanced\Exam\2016\BoekenAuteursApplication\BoekenData\bin\Debug\BoekenAuteursData.dll
+C:\Users\20002650\Documents\PXL\DotNetAdvanced\Exam\2016\BoekenAuteursApplication\BoekenData\bin\Debug\BoekenAuteursData.pdb
+C:\Users\20002650\Documents\PXL\DotNetAdvanced\Exam\2016\BoekenAuteursApplication\BoekenData\obj\Debug\BoekenAuteursData.dll
+C:\Users\20002650\Documents\PXL\DotNetAdvanced\Exam\2016\BoekenAuteursApplication\BoekenData\obj\Debug\BoekenAuteursData.pdb
+C:\Users\20002650\Documents\PXL\DotNetAdvanced\Exam\2016\Skelet\BoekenAuteursApplication\BoekenData\bin\Debug\BoekenAuteursData.dll
+C:\Users\20002650\Documents\PXL\DotNetAdvanced\Exam\2016\Skelet\BoekenAuteursApplication\BoekenData\bin\Debug\BoekenAuteursData.pdb
+C:\Users\20002650\Documents\PXL\DotNetAdvanced\Exam\2016\Skelet\BoekenAuteursApplication\BoekenData\obj\Debug\BoekenAuteursData.dll
+C:\Users\20002650\Documents\PXL\DotNetAdvanced\Exam\2016\Skelet\BoekenAuteursApplication\BoekenData\obj\Debug\BoekenAuteursData.pdb
+C:\Users\20002650\Documents\PXL\DotNetAdvanced\Exam\2016\Skelet\BoekenAuteursApplication\BoekenData\obj\Debug\BoekenAuteursData.csprojResolveAssemblyReference.cache

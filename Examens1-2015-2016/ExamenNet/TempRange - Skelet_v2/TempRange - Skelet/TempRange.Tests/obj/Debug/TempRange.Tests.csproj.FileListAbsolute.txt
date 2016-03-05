@@ -1,0 +1,18 @@
+C:\PHL\Lessen\2TIN\2015-2016\.NET Adv\Examen\Final\TempRange\TempRange.Tests\bin\Debug\TempRange.Tests.dll
+C:\PHL\Lessen\2TIN\2015-2016\.NET Adv\Examen\Final\TempRange\TempRange.Tests\bin\Debug\TempRange.Tests.pdb
+C:\PHL\Lessen\2TIN\2015-2016\.NET Adv\Examen\Final\TempRange\TempRange.Tests\bin\Debug\nunit.framework.dll
+C:\PHL\Lessen\2TIN\2015-2016\.NET Adv\Examen\Final\TempRange\TempRange.Tests\bin\Debug\TempRange.dll
+C:\PHL\Lessen\2TIN\2015-2016\.NET Adv\Examen\Final\TempRange\TempRange.Tests\bin\Debug\TempRange.pdb
+C:\PHL\Lessen\2TIN\2015-2016\.NET Adv\Examen\Final\TempRange\TempRange.Tests\bin\Debug\nunit.framework.xml
+C:\PHL\Lessen\2TIN\2015-2016\.NET Adv\Examen\Final\TempRange\TempRange.Tests\obj\Debug\TempRange.Tests.csprojResolveAssemblyReference.cache
+C:\PHL\Lessen\2TIN\2015-2016\.NET Adv\Examen\Final\TempRange\TempRange.Tests\obj\Debug\TempRange.Tests.dll
+C:\PHL\Lessen\2TIN\2015-2016\.NET Adv\Examen\Final\TempRange\TempRange.Tests\obj\Debug\TempRange.Tests.pdb
+C:\PHL\Lessen\2TIN\2015-2016\.NET Adv\Examen\Final\TempRange - Skelet\TempRange.Tests\bin\Debug\TempRange.Tests.dll
+C:\PHL\Lessen\2TIN\2015-2016\.NET Adv\Examen\Final\TempRange - Skelet\TempRange.Tests\bin\Debug\TempRange.Tests.pdb
+C:\PHL\Lessen\2TIN\2015-2016\.NET Adv\Examen\Final\TempRange - Skelet\TempRange.Tests\bin\Debug\nunit.framework.dll
+C:\PHL\Lessen\2TIN\2015-2016\.NET Adv\Examen\Final\TempRange - Skelet\TempRange.Tests\bin\Debug\TempRange.dll
+C:\PHL\Lessen\2TIN\2015-2016\.NET Adv\Examen\Final\TempRange - Skelet\TempRange.Tests\bin\Debug\TempRange.pdb
+C:\PHL\Lessen\2TIN\2015-2016\.NET Adv\Examen\Final\TempRange - Skelet\TempRange.Tests\bin\Debug\nunit.framework.xml
+C:\PHL\Lessen\2TIN\2015-2016\.NET Adv\Examen\Final\TempRange - Skelet\TempRange.Tests\obj\Debug\TempRange.Tests.csprojResolveAssemblyReference.cache
+C:\PHL\Lessen\2TIN\2015-2016\.NET Adv\Examen\Final\TempRange - Skelet\TempRange.Tests\obj\Debug\TempRange.Tests.dll
+C:\PHL\Lessen\2TIN\2015-2016\.NET Adv\Examen\Final\TempRange - Skelet\TempRange.Tests\obj\Debug\TempRange.Tests.pdb

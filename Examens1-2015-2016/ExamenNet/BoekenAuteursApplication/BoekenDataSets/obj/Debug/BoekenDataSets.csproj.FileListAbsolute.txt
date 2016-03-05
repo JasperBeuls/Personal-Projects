@@ -1,0 +1,14 @@
+C:\Users\20002650\Documents\PXL\DotNetAdvanced\Exam\2016\BoekenApplication\BoekenDataSets\bin\Debug\BoekenDataSets.exe.config
+C:\Users\20002650\Documents\PXL\DotNetAdvanced\Exam\2016\BoekenApplication\BoekenDataSets\bin\Debug\BoekenDataSets.exe
+C:\Users\20002650\Documents\PXL\DotNetAdvanced\Exam\2016\BoekenApplication\BoekenDataSets\bin\Debug\BoekenDataSets.pdb
+C:\Users\20002650\Documents\PXL\DotNetAdvanced\Exam\2016\BoekenApplication\BoekenDataSets\obj\Debug\App.g.cs
+C:\Users\20002650\Documents\PXL\DotNetAdvanced\Exam\2016\BoekenApplication\BoekenDataSets\obj\Debug\BoekenDataSets_MarkupCompile.cache
+C:\Users\20002650\Documents\PXL\DotNetAdvanced\Exam\2016\BoekenApplication\BoekenDataSets\obj\Debug\BoekenDataSets_MarkupCompile.lref
+C:\Users\20002650\Documents\PXL\DotNetAdvanced\Exam\2016\BoekenApplication\BoekenDataSets\obj\Debug\BoekenDataSets.g.resources
+C:\Users\20002650\Documents\PXL\DotNetAdvanced\Exam\2016\BoekenApplication\BoekenDataSets\obj\Debug\BoekenDataSets.Properties.Resources.resources
+C:\Users\20002650\Documents\PXL\DotNetAdvanced\Exam\2016\BoekenApplication\BoekenDataSets\obj\Debug\BoekenDataSets.csproj.GenerateResource.Cache
+C:\Users\20002650\Documents\PXL\DotNetAdvanced\Exam\2016\BoekenApplication\BoekenDataSets\obj\Debug\BoekenDataSets.exe
+C:\Users\20002650\Documents\PXL\DotNetAdvanced\Exam\2016\BoekenApplication\BoekenDataSets\obj\Debug\BoekenDataSets.pdb
+C:\Users\20002650\Documents\PXL\DotNetAdvanced\Exam\2016\BoekenApplication\BoekenDataSets\obj\Debug\BoekenByGenre.g.cs
+C:\Users\20002650\Documents\PXL\DotNetAdvanced\Exam\2016\BoekenApplication\BoekenDataSets\obj\Debug\GeneratedInternalTypeHelper.g.cs
+C:\Users\20002650\Documents\PXL\DotNetAdvanced\Exam\2016\BoekenApplication\BoekenDataSets\obj\Debug\BoekenByGenre.baml

@@ -1,0 +1,1311 @@
+<!DOCTYPE html>
+<!-- saved from url=(0046)http://www.tecmint.com/create-raid-5-in-linux/ -->
+<html class="js" lang="en-US" style="height: 100%;"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><script async="" src="./Creating RAID 5 (Striping with Distributed Parity) in Linux - Part 4_files/count.json"></script>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="alexaVerifyID" content="qqxQUyWSeUfqZOencfEoRM9vrVk">
+<meta name="msvalidate.01" content="E8C9208AD2F47ED874ED18E35FC370CE">
+<meta name="google-translate-customization" content="c567e5d7624a883b-609bf053fa02c58b-g01de0b1961de0feb-f">
+<meta property="article:publisher" content="http://facebook.com/tecmint">
+<meta property="article:author" content="http://facebook.com/ravisaive">
+	<link rel="profile" href="http://gmpg.org/xfn/11">
+	<link rel="pingback" href="http://www.tecmint.com/xmlrpc.php">
+	
+	<title>Creating RAID 5 (Striping with Distributed Parity) in Linux - Part 4</title>
+<script async="" src="./Creating RAID 5 (Striping with Distributed Parity) in Linux - Part 4_files/analytics.js"></script><script>document.documentElement.className = document.documentElement.className.replace("no-js","js");</script>
+
+<!-- All in One SEO Pack 2.2.7.5 by Michael Torbert of Semper Fi Web Design[696,831] -->
+<link rel="author" href="https://plus.google.com/u/0/107665449243972690526">
+<meta name="description" itemprop="description" content="This article is a Part 4 of a 9-tutorial RAID series, here we are going to setup a software RAID 5 with distributed parity using three 20GB disks.">
+
+<meta name="keywords" itemprop="keywords" content="setup raid 5 in linux,create raid 5 in linux,what is raid 5,raid 5 setup in linux,mdadm,raid 5">
+
+<link rel="canonical" href="./Creating RAID 5 (Striping with Distributed Parity) in Linux - Part 4_files/Creating RAID 5 (Striping with Distributed Parity) in Linux - Part 4.html">
+			<script>
+			(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+			(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+			m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+			})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+			ga('create', 'UA-33207530-1', { 'cookieDomain': 'tecmint.com','allowLinker': true } );
+			ga('require', 'linker');
+			ga('linker:autoLink', ['tecmint.com'] );
+			ga('send', 'pageview');
+			</script>
+<!-- /all in one seo pack -->
+<link rel="alternate" type="application/rss+xml" title="Tecmint: Linux Howtos, Tutorials &amp; Guides » Feed" href="http://feeds.feedburner.com/tecmint">
+<link rel="alternate" type="application/rss+xml" title="Tecmint: Linux Howtos, Tutorials &amp; Guides » Comments Feed" href="http://www.tecmint.com/comments/feed/">
+<link href="./Creating RAID 5 (Striping with Distributed Parity) in Linux - Part 4_files/css" rel="stylesheet" type="text/css">
+<link rel="alternate" type="application/rss+xml" title="Tecmint: Linux Howtos, Tutorials &amp; Guides » Creating RAID 5 (Striping with Distributed Parity) in Linux – Part 4 Comments Feed" href="http://www.tecmint.com/create-raid-5-in-linux/feed/">
+<link rel="stylesheet" id="dgd-scrollbox-plugin-core-css" href="./Creating RAID 5 (Striping with Distributed Parity) in Linux - Part 4_files/style.css" type="text/css" media="all">
+<link rel="stylesheet" id="fancybox-style-css" href="./Creating RAID 5 (Striping with Distributed Parity) in Linux - Part 4_files/jquery.fancybox.css" type="text/css" media="all">
+<link rel="stylesheet" id="style-css" href="./Creating RAID 5 (Striping with Distributed Parity) in Linux - Part 4_files/style(1).css" type="text/css" media="all">
+<link rel="stylesheet" id="responsive-css" href="./Creating RAID 5 (Striping with Distributed Parity) in Linux - Part 4_files/responsive.css" type="text/css" media="all">
+<link rel="stylesheet" id="custom-css" href="./Creating RAID 5 (Striping with Distributed Parity) in Linux - Part 4_files/custom.css" type="text/css" media="all">
+<link rel="stylesheet" id="font-awesome-css" href="./Creating RAID 5 (Striping with Distributed Parity) in Linux - Part 4_files/font-awesome.min.css" type="text/css" media="all">
+<link rel="stylesheet" id="qbp-css" href="./Creating RAID 5 (Striping with Distributed Parity) in Linux - Part 4_files/qbp.css" type="text/css" media="all">
+<script type="text/javascript" src="./Creating RAID 5 (Striping with Distributed Parity) in Linux - Part 4_files/jquery.js"></script>
+<script type="text/javascript" src="./Creating RAID 5 (Striping with Distributed Parity) in Linux - Part 4_files/jquery-migrate.min.js"></script>
+<script type="text/javascript">
+/* <![CDATA[ */
+var $DGD = {"ajaxurl":"http:\/\/www.tecmint.com\/wp-admin\/admin-ajax.php","nonce":"8b939f53ba","debug":"","permalink":"http:\/\/www.tecmint.com\/create-raid-5-in-linux\/","title":"Creating RAID 5 (Striping with Distributed Parity) in Linux - Part 4","thumbnail":"http:\/\/www.tecmint.com\/wp-content\/uploads\/2014\/11\/setup-raid-5-in-linux1.jpg","scripthost":"http:\/\/www.tecmint.com\/wp-content\/plugins\/dreamgrow-scroll-triggered-box\/","scrollboxes":[{"trigger":{"action":"scroll","scroll":"40","delaytime":"0","element":""},"vpos":"bottom","hpos":"right","cookieLifetime":"1","hide_mobile":"1","receiver_email":"0","thankyou":"You are subscribed. Thank You!","submit_auto_close":"5","delay_auto_close":"0","theme":"clean_white","widget_enabled":"1","height":"auto","width":"300","jsCss":{"padding":"10","margin":"10","backgroundColor":"","boxShadow":"0px","borderColor":"","borderWidth":"0px","borderRadius":"0px","backgroundImageUrl":""},"closeImageUrl":"","transition":{"from":"b","effect":"fade","speed":"400"},"social":{"facebook":"","twitter":"","google":"","pinterest":"","stumbleupon":"","linkedin":""},"id":"dgd_scrollbox-11027","mode":"stb","voff":0,"hoff":0}]};
+/* ]]> */
+</script>
+<script type="text/javascript" src="./Creating RAID 5 (Striping with Distributed Parity) in Linux - Part 4_files/script.js"></script>
+<script type="text/javascript">
+/* <![CDATA[ */
+var ajaxurl = "http:\/\/www.tecmint.com\/wp-admin\/admin-ajax.php";
+var QBP_PUBLIC_GLOBALS = {"QBP_PUBLIC_NONCE":"8ad2b2bf4d","USER_TYPE":"public","VISIBILITY_DATA":{"is_page":false,"is_post":true,"is_homepage":false,"is_archive":false,"is_custom_post_type":false,"id":9738}};
+/* ]]> */
+</script>
+<script type="text/javascript" src="./Creating RAID 5 (Striping with Distributed Parity) in Linux - Part 4_files/qbp.js"></script>
+<link rel="https://api.w.org/" href="http://www.tecmint.com/wp-json/">
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="http://www.tecmint.com/xmlrpc.php?rsd">
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="http://www.tecmint.com/wp-includes/wlwmanifest.xml"> 
+<link rel="prev" title="A Complete Guide to Usage of ‘usermod’ command – 15 Practical Examples with Screenshots" href="http://www.tecmint.com/usermod-command-examples/">
+<link rel="next" title="LFCE: Installing Network Services and Configuring Automatic Startup at Boot – Part 1" href="http://www.tecmint.com/installing-network-services-and-configuring-services-at-system-boot/">
+<meta name="generator" content="WordPress 4.4.1">
+<link rel="shortlink" href="http://www.tecmint.com/?p=9738">
+<link rel="alternate" type="application/json+oembed" href="http://www.tecmint.com/wp-json/oembed/1.0/embed?url=http%3A%2F%2Fwww.tecmint.com%2Fcreate-raid-5-in-linux%2F">
+<link rel="alternate" type="text/xml+oembed" href="http://www.tecmint.com/wp-json/oembed/1.0/embed?url=http%3A%2F%2Fwww.tecmint.com%2Fcreate-raid-5-in-linux%2F&amp;format=xml">
+
+
+<!-- Facebook Like Thumbnail (v0.3.4) -->
+<meta property="og:image" content="http://www.tecmint.com/wp-content/uploads/2014/11/setup-raid-5-in-linux1.jpg">
+<!-- using featured thumbnail -->
+<!-- Facebook Like Thumbnail (By Ashfame - https://github.com/ashfame/facebook-like-thumbnail) -->
+
+<link rel="shortcut icon" href="http://www.tecmint.com/wp-content/themes/tecmint/images/favicon.ico">
+<!--[if lt IE 9]>
+<script src="http://www.tecmint.com/wp-content/themes/tecmint/js/ie/html5.js"></script>
+<script src="http://www.tecmint.com/wp-content/themes/tecmint/js/ie/selectivizr.js"></script>
+<![endif]-->
+<style type="text/css">
+/* Dynamic CSS: For no styles in head, copy and put the css below in your custom.css or child theme's style.css, disable dynamic styles */
+body { font-family: "Roboto Condensed", Arial, sans-serif; }
+.boxed #wrapper, .container-inner { max-width: 1280px; }
+.sidebar .widget { padding-left: 20px; padding-right: 20px; padding-top: 20px; }
+
+.search-expand,
+#nav-topbar.nav-container { background-color: #23588c; }
+@media only screen and (min-width: 720px) {
+	#nav-topbar .nav ul { background-color: #23588c; }
+}			
+				
+
+#header { background-color: #075b88; }
+@media only screen and (min-width: 720px) {
+	#nav-header .nav ul { background-color: #075b88; }
+}			
+				
+
+#nav-header.nav-container { background-color: #2f6dab; }
+@media only screen and (min-width: 720px) {
+	#nav-header .nav ul { background-color: #2f6dab; }
+}			
+				
+#footer-bottom { background-color: #2f6dab; }
+.site-title a img { max-height: 90px; }
+img { -webkit-border-radius: 2px; border-radius: 2px; }
+</style>
+
+<link rel="author" href="https://plus.google.com/107665449243972690526/posts">
+<script async="" src="http://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<script type="application/ld+json">
+{
+   "@context": "http://schema.org",
+   "@type": "WebSite",
+   "url": "http://www.tecmint.com/",
+   "potentialAction": {
+     "@type": "SearchAction",
+     "target": "http://www.tecmint.com/?s={search_term}",
+     "query-input": "required name=search_term"
+   }
+}
+</script>
+<script>
+  (adsbygoogle = window.adsbygoogle || []).push({
+    google_ad_client: "ca-pub-2601749019656699",
+    enable_page_level_ads: true
+  });
+</script>
+<script type="text/javascript">
+this.randomtip = function(){
+        var length = $("#tips li").length;
+        var ran = Math.floor(Math.random()*length) + 1;
+        $("#tips li:nth-child(" + ran + ")").show();
+};
+
+$(document).ready(function(){   
+        randomtip();
+});
+</script>
+<link type="text/css" rel="stylesheet" charset="UTF-8" href="./Creating RAID 5 (Striping with Distributed Parity) in Linux - Part 4_files/translateelement.css"><script type="text/javascript" charset="UTF-8" src="./Creating RAID 5 (Striping with Distributed Parity) in Linux - Part 4_files/main_nl.js"></script><script type="text/javascript" charset="UTF-8" src="./Creating RAID 5 (Striping with Distributed Parity) in Linux - Part 4_files/element_main.js"></script></head>
+
+<link id="qbp-fonts" href="./Creating RAID 5 (Striping with Distributed Parity) in Linux - Part 4_files/css(1)" rel="stylesheet" type="text/css"><div id="quickiebarpro-show-button" class="show-button-sticky-enabled show-button-placement-top" style="color: rgb(255, 255, 255); z-index: 100; display: none; background: rgb(241, 90, 41);"><div class="show-button" style="color:#FFFFFF;background:#F15A29;"><i class="fa fa-chevron-down"></i><i class="fa fa-chevron-up"></i></div></div><div id="quickiebarpro" class="qbp-560b7eb56ce08 qbp-2 qbp qbp-bar_height-skinny qbp-sticky-enabled qbp-placement-top qbp-attribution-hidden qbp-alignment-centered qbp-button_style-rounded qbp-close_button_visibility-onhover qbp-bar_type-basic " style="z-index: 100; display: block; background: rgb(241, 90, 41);"><div class="hover-background-overlay"></div><div class="wrap"><div class="qbp-wrap"><span id="qbp-bar-text" class="bar-text" style="color:#FFFFFF;font-family:Roboto Slab;font-weight:700;">Learn Linux Operations With This Premium 5-Course Learner Bundle ($49)</span><span id="qbp-bar-button" class="bar-button" style="color:#FFFFFF;background:#062332;border-color:#FFFFFF;font-family:Roboto Slab;font-weight:700;">Get This Deal</span><div id="qbp-bar-html" class="bar-html"></div><form id="qbp-subscribe-form" class="subscribe-form" onsubmit="return false;"><input id="qbp-subscribe-input" type="email" placeholder="Email" autocomplete="off"><div id="qbp-subscribe-button" style="color:#FFFFFF;background:#062332;border-color:#FFFFFF;"><i class="fa fa-long-arrow-right"></i></div></form></div></div><div class="qbp-close-button"><i class="fa fa-times-circle-o"></i></div><a href="http://goo.gl/IKxVQN" target="_blank" class="link-overlay" style=""></a><div class="qbp-close-bar"><i class="fa fa-chevron-up"></i></div></div><body class="single single-post postid-9738 single-format-standard col-2cl full-width topbar-enabled chrome s1-collapse s2-collapse" style="position: relative; min-height: 100%; top: 0px; padding-top: 40px;">
+
+<div id="wrapper">
+
+	<header id="header">
+	
+					<nav class="nav-container group" id="nav-topbar">
+				<div class="nav-toggle"><i class="fa fa-bars"></i></div>
+				<div class="nav-text"><!-- put your mobile menu text here --></div>
+				<div class="nav-wrap container"><ul id="menu-home" class="nav container-inner group"><li id="menu-item-334" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-334"><a href="http://www.tecmint.com/">Home</a></li>
+<li id="menu-item-10774" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-10774"><a target="_blank" href="http://www.tecmint.com/who-we-are/">About</a></li>
+<li id="menu-item-3912" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-3912"><a target="_blank" href="http://tecmint.tradepub.com/category/information-technology-servers-and-linux-server-os/806/">Free Linux eBooks</a></li>
+<li id="menu-item-10439" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-10439"><a title="LinuxSay – A Discussion Forum for Linux Enthusiasts" target="_blank" href="http://linuxsay.com/">Discussion</a></li>
+<li id="menu-item-17151" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-17151"><a title="Discover and save on the best gear, gadgets, and software" target="_blank" href="http://deals.tecmint.com/">Deals</a></li>
+<li id="menu-item-10440" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-10440"><a target="_blank" href="http://www.tecmint.com/donate-to-tecmint/">Donate</a></li>
+<li id="menu-item-10775" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-10775"><a target="_blank" href="http://www.tecmint.com/submit-articles/">Join TecMint</a></li>
+<li id="menu-item-11736" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-11736"><a target="_blank" href="http://www.tecmint.com/linux-training/">Linux Training</a></li>
+<li id="menu-item-11907" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-11907"><a title="Subscribe to Daily Updates" target="_blank" href="http://www.tecmint.com/subscribe-to-blog/">Subscribe</a></li>
+<li id="menu-item-13338" class="hosting menu-item menu-item-type-custom menu-item-object-custom menu-item-13338"><a title="Hostgator Hosting 25% OFF" href="http://www.tecmint.com/hostgator-discount-coupon/">Hosting 25% OFF</a></li>
+<li id="menu-item-15139" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-15139"><a target="_blank" href="http://www.tecmint.com/free-wordpress-installation-setup/">Free WordPress Setup</a></li>
+</ul></div>
+				
+				<div class="container">
+					<div class="container-inner">		
+						<div class="toggle-search"><i class="fa fa-search"></i></div>
+						<div class="search-expand">
+							<div class="search-expand-inner">
+								<form action="http://www.tecmint.com/search/" id="cse-search-box">
+  <div>
+    <input type="hidden" name="cx" value="partner-pub-2601749019656699:2173448976">
+    <input type="hidden" name="cof" value="FORID:10">
+    <input type="hidden" name="ie" value="UTF-8">
+    <input type="text" class="search" name="q" size="20" style="border: 1px solid rgb(126, 157, 185); padding: 2px; background: url(&quot;https://www.google.com/cse/static/en/google_custom_search_watermark.gif&quot;) 0% 50% no-repeat rgb(255, 255, 255);">
+    <input type="submit" name="sa" value="Search">
+  </div>
+<input name="siteurl" type="hidden" value="www.tecmint.com/create-raid-5-in-linux/"><input name="ref" type="hidden" value="www.google.be/"><input name="ss" type="hidden" value=""></form>
+<script type="text/javascript" src="./Creating RAID 5 (Striping with Distributed Parity) in Linux - Part 4_files/brand"></script>							</div>
+						</div>
+					</div><!--/.container-inner-->
+				</div><!--/.container-->
+				
+			</nav><!--/#nav-topbar-->
+				
+		<div class="container group">
+			<div class="container-inner">
+				
+								<div class="group pad">
+					<p class="site-title"><a href="http://www.tecmint.com/" rel="home"><img src="./Creating RAID 5 (Striping with Distributed Parity) in Linux - Part 4_files/logo.png" alt="Tecmint: Linux Howtos, Tutorials &amp; Guides"></a></p>
+															<div id="header-ads">
+						<div id="text-17" class="widget widget_text">			<div class="textwidget"><!-- Top Banner Ads 728x90 -->
+<ins class="adsbygoogle" style="display:inline-block;width:728px;height:90px" data-ad-client="ca-pub-2601749019656699" data-ad-slot="8210224606"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+</div>
+		</div>					</div><!--/#header-ads-->
+									</div>
+												
+									<nav class="nav-container group" id="nav-header">
+						<div class="nav-toggle"><i class="fa fa-bars"></i></div>
+						<div class="nav-text"><!-- put your mobile menu text here --></div>
+						<div class="nav-wrap container" style="float:left"><ul id="menu-header" class="nav container-inner group"><li id="menu-item-10770" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-10770"><a href="http://www.tecmint.com/best-linux-distributions/">Linux Distro’s</a></li>
+<li id="menu-item-10771" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-10771"><a href="http://www.tecmint.com/category/interview-questions/">Interview Questions</a></li>
+<li id="menu-item-10772" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-10772"><a title="Learn Linux Shell Scripting" href="http://www.tecmint.com/category/bash-shell/">Shell Scripting</a></li>
+<li id="menu-item-10773" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-10773"><a href="http://www.tecmint.com/category/linux-commands/">Linux Commands</a></li>
+<li id="menu-item-14795" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-14795"><a href="http://www.tecmint.com/tag/linux-tricks/">Linux Tricks</a></li>
+<li id="menu-item-10443" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-has-children menu-item-10443"><a target="_blank" href="http://www.tecmint.com/#">Certifications</a>
+<ul class="sub-menu" style="display: none;">
+	<li id="menu-item-14880" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-14880"><a href="http://www.tecmint.com/how-to-setup-and-configure-static-network-routing-in-rhel/">RHCE Exam</a></li>
+	<li id="menu-item-11906" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-11906"><a target="_blank" href="http://www.tecmint.com/rhcsa-exam-reviewing-essential-commands-system-documentation/">RHCSA Exam</a></li>
+	<li id="menu-item-10444" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-10444"><a target="_blank" href="http://www.tecmint.com/installing-network-services-and-configuring-services-at-system-boot/">LFCE Exam</a></li>
+	<li id="menu-item-14793" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-14793"><a href="http://www.tecmint.com/sed-command-to-create-edit-and-manipulate-files-in-linux/">LFCS Exam</a></li>
+</ul>
+</li>
+<li id="menu-item-12399" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-has-children menu-item-12399"><a href="http://www.tecmint.com/#">Guides</a>
+<ul class="sub-menu" style="display: none;">
+	<li id="menu-item-17150" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-17150"><a href="http://www.tecmint.com/setup-postfix-mail-server-and-dovecot-with-mariadb-in-centos/">Postfix Mail</a></li>
+	<li id="menu-item-15041" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-15041"><a href="http://www.tecmint.com/citrix-xenserver-installation-and-network-configuration-in-linux/">XenServer Series</a></li>
+	<li id="menu-item-14794" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-14794"><a href="http://www.tecmint.com/install-redhat-virtualization-rhev/">RHEV Series</a></li>
+	<li id="menu-item-14805" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-14805"><a href="http://www.tecmint.com/what-is-clustering-and-advantages-disadvantages-of-clustering-in-linux/">Clustering Series</a></li>
+	<li id="menu-item-12400" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-12400"><a href="http://www.tecmint.com/create-lvm-storage-in-linux/">LVM Series</a></li>
+	<li id="menu-item-12402" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-12402"><a href="http://www.tecmint.com/understanding-raid-setup-in-linux/">RAID Series</a></li>
+	<li id="menu-item-12403" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-12403"><a href="http://www.tecmint.com/install-and-configure-kvm-in-linux/">KVM Series</a></li>
+	<li id="menu-item-12401" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-12401"><a href="http://www.tecmint.com/create-centralized-secure-storage-using-iscsi-targetin-linux/">iSCSI Series</a></li>
+	<li id="menu-item-12406" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-12406"><a href="http://www.tecmint.com/install-zentyal-as-primary-domain-controller-and-integrate-windows-system/">Zentyal Series</a></li>
+	<li id="menu-item-16084" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-16084"><a href="http://www.tecmint.com/install-and-configure-ansible-automation-tool-in-linux/">Ansible Series</a></li>
+	<li id="menu-item-16395" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-16395"><a href="http://www.tecmint.com/install-and-configure-django-web-framework-in-centos-debian-ubuntu/">Django Series</a></li>
+	<li id="menu-item-14603" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-14603"><a href="http://www.tecmint.com/create-gui-applications-in-linux/">Create GUI Apps</a></li>
+</ul>
+</li>
+<li id="menu-item-14796" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-14796"><a href="http://www.tecmint.com/command-line-tools-to-monitor-linux-performance/">Monitoring Tools</a>
+<ul class="sub-menu" style="display: none;">
+	<li id="menu-item-14797" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-14797"><a href="http://www.tecmint.com/install-nagios-in-linux/">Nagios</a></li>
+	<li id="menu-item-14798" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-14798"><a href="http://www.tecmint.com/install-and-configure-zabbix-monitoring-on-debian-centos-rhel/">Zabbix</a></li>
+	<li id="menu-item-14799" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-14799"><a href="http://www.tecmint.com/install-cacti-network-monitoring-on-rhel-centos-6-3-5-8-and-fedora-17-12/">Cacti</a></li>
+	<li id="menu-item-14800" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-14800"><a href="http://www.tecmint.com/install-observium-in-centos/">Observium</a></li>
+	<li id="menu-item-14801" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-14801"><a href="http://www.tecmint.com/monitorix-a-lightweight-system-and-network-monitoring-tool-for-linux/">Monitorix</a></li>
+	<li id="menu-item-14802" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-14802"><a href="http://www.tecmint.com/install-collectd-and-collectd-web-to-monitor-server-resources-in-linux/">Collectd</a></li>
+	<li id="menu-item-14803" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-14803"><a href="http://www.tecmint.com/linux-performance-monitoring-with-collectl-tool/">Collectl</a></li>
+	<li id="menu-item-14804" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-14804"><a href="http://www.tecmint.com/mysql-performance-monitoring/">MySQL Monitoring</a></li>
+</ul>
+</li>
+</ul></div>
+
+<div class="google-translator">
+<div id="google_translate_element"><div class="skiptranslate goog-te-gadget" dir="ltr"><div id=":0.targetLanguage" style="display: inline;"><select class="goog-te-combo"><option value="">Selecteer een taal</option><option value="nl">Nederlands</option><option value="af">Afrikaans</option><option value="sq">Albanees</option><option value="ar">Arabisch</option><option value="hy">Armeens</option><option value="az">Azerbeidzjaans</option><option value="eu">Baskisch</option><option value="bn">Bengaals</option><option value="my">Birmaans</option><option value="bs">Bosnisch</option><option value="bg">Bulgaars</option><option value="ca">Catalaans</option><option value="ceb">Cebuano</option><option value="ny">Chichewa</option><option value="zh-TW">Chinees (traditioneel)</option><option value="zh-CN">Chinees (vereenvoudigd)</option><option value="da">Deens</option><option value="de">Duits</option><option value="en">Engels</option><option value="eo">Esperanto</option><option value="et">Ests</option><option value="fi">Fins</option><option value="fr">Frans</option><option value="gl">Galicisch</option><option value="ka">Georgisch</option><option value="el">Grieks</option><option value="gu">Gujarati</option><option value="ht">Haïtiaans Creools</option><option value="ha">Hausa</option><option value="iw">Hebreeuws</option><option value="hi">Hindoestaans</option><option value="hmn">Hmong</option><option value="hu">Hongaars</option><option value="ga">Iers</option><option value="ig">Igbo</option><option value="is">IJslands</option><option value="id">Indonesisch</option><option value="it">Italiaans</option><option value="ja">Japans</option><option value="jw">Javaans</option><option value="yi">Jiddisch</option><option value="kn">Kannada</option><option value="kk">Kazachs</option><option value="km">Khmer</option><option value="ko">Koreaans</option><option value="hr">Kroatisch</option><option value="lo">Lao</option><option value="la">Latijn</option><option value="lv">Lets</option><option value="lt">Litouws</option><option value="mk">Macedonisch</option><option value="mg">Malagasi</option><option value="ml">Malayalam</option><option value="ms">Maleis</option><option value="mt">Maltees</option><option value="mi">Maori</option><option value="mr">Marathi</option><option value="mn">Mongools</option><option value="ne">Nepalees</option><option value="no">Noors</option><option value="uk">Oekraïens</option><option value="uz">Oezbeeks</option><option value="fa">Perzisch</option><option value="pl">Pools</option><option value="pt">Portugees</option><option value="pa">Punjabi</option><option value="ro">Roemeens</option><option value="ru">Russisch</option><option value="sr">Servisch</option><option value="st">Sesotho</option><option value="si">Sinhala</option><option value="sk">Slovaaks</option><option value="sl">Sloveens</option><option value="su">Soedanees</option><option value="so">Somalisch</option><option value="es">Spaans</option><option value="sw">Swahili</option><option value="tg">Tadzjieks</option><option value="tl">Tagalog</option><option value="ta">Tamil</option><option value="te">Telugu</option><option value="th">Thai</option><option value="cs">Tsjechisch</option><option value="tr">Turks</option><option value="ur">Urdu</option><option value="vi">Vietnamees</option><option value="cy">Wels</option><option value="be">Wit-Russisch</option><option value="yo">Yoruba</option><option value="zu">Zoeloe</option><option value="sv">Zweeds</option></select></div>&nbsp;&nbsp;Mogelijk gemaakt door <span style="white-space:nowrap"><a class="goog-logo-link" href="https://translate.google.com/" target="_blank"><img src="./Creating RAID 5 (Striping with Distributed Parity) in Linux - Part 4_files/googlelogo_color_42x16dp.png" width="37px" height="14px" style="padding-right: 3px">Translate</a></span></div></div><script type="text/javascript">
+function googleTranslateElementInit() {
+  new google.translate.TranslateElement({pageLanguage: 'en', layout: google.translate.TranslateElement.InlineLayout.HORIZONTAL, multilanguagePage: true, gaTrack: true, gaId: 'UA-33207530-1'}, 'google_translate_element');}
+</script>
+</div>
+</nav></div>
+					<!--/#nav-header-->
+								
+			</div><!--/.container-inner-->
+		</header></div><!--/.container-->
+		
+	<!--/#header-->
+	
+	<div class="container" id="page">
+		<div class="container-inner">			
+			<div class="main">
+				<div class="main-inner group">
+<section class="content">
+	
+	<div class="page-title pad group">
+
+			<ul class="meta-single group">
+			<li class="category"><a href="http://www.tecmint.com/category/raid/" rel="category tag">Raid</a></li>
+						<li class="comments"><a href="http://www.tecmint.com/create-raid-5-in-linux/#comments"><i class="fa fa-comments-o"></i>2</a></li>
+					</ul>
+		
+	
+</div><!--/.page-title-->	
+	<div class="pad group">
+		
+					<article class="post-9738 post type-post status-publish format-standard has-post-thumbnail hentry category-raid tag-mdadm tag-raid-5">	
+				<div class="post-inner group">
+					
+					<h1 class="post-title">Creating RAID 5 (Striping with Distributed Parity) in Linux – Part 4</h1>
+					<p class="post-byline">by <a href="http://www.tecmint.com/author/babinlonston/" title="Posts by Babin Lonston" rel="author">Babin Lonston</a> | Published: November 12, 2014 | <!-- if the post updated datetime is not equal to the post datetime, show the updated datetime -->
+            Last Updated: January 2, 2015    </p>
+					
+															<div class="clear"></div>
+					
+<!-- Above Post Ads 468x15 -->
+<div class="add-box">
+<ins class="adsbygoogle" style="display:inline-block;width:468px;height:15px" data-ad-client="ca-pub-2601749019656699" data-ad-slot="1986283779"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+</div>
+<div class="clear"></div>
+<div id="exam_announcement">
+<i style="color:#28557a; font-size:20px;" class="fa fa-book"></i>
+  <b>Download Your Free eBooks NOW</b> - <a target="_blank" style="text-decoration:underline;" href="http://www.tecmint.com/10-useful-free-linux-ebooks-for-newbies-and-administrators/">10 Free Linux eBooks for Administrators</a> | <a style="text-decoration:underline;" target="_blank" href="http://www.tecmint.com/free-linux-shell-scripting-books/">4 Free Shell Scripting eBooks</a>
+</div>
+<div class="clear"></div>
+
+<div class="ads-inner-mobile">
+<center>
+<!-- Post Inner Mobile Ads -->
+<ins class="adsbygoogle" style="display:inline-block;width:300px;height:250px" data-ad-client="ca-pub-2601749019656699" data-ad-slot="9946480174"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+</center>
+</div>
+<div class="clear"></div>
+
+					<div class="entry share">	
+						<div class="entry-inner">
+							<p>In RAID 5, data strips across multiple drives with distributed parity. The striping with distributed parity means it will split the parity information and stripe data over the multiple disks, which will have good data redundancy.</p>
+<div id="attachment_9760" style="width: 610px" class="wp-caption aligncenter"><a href="./Creating RAID 5 (Striping with Distributed Parity) in Linux - Part 4_files/setup-raid-5-in-linux.jpg"><img class="size-full wp-image-9760" src="./Creating RAID 5 (Striping with Distributed Parity) in Linux - Part 4_files/setup-raid-5-in-linux.jpg" alt="Setup Raid 5 in CentOS" width="600" height="400" data-lazy-loaded="true" style="display: inline;"><noscript>&lt;img class="size-full wp-image-9760" src="http://www.tecmint.com/wp-content/uploads/2014/11/setup-raid-5-in-linux.jpg" alt="Setup Raid 5 in CentOS" width="600" height="400" /&gt;</noscript></a><p class="wp-caption-text">Setup Raid 5 in Linux</p></div>
+<p>For RAID Level it should have at least three hard drives or more. RAID 5 are being used in the large scale production environment where it’s cost effective and provide performance as well as redundancy.</p>
+<h4>What is Parity?</h4>
+<p><strong>Parity</strong> is a simplest common method of detecting errors in data storage. Parity stores information in each disks, Let’s say we have 4 disks, in 4 disks one disk space will be split to all disks to store the parity information’s. If any one of the disks fails still we can get the data by rebuilding from parity information after replacing the failed disk.</p>
+<h4>Pros and Cons of RAID 5</h4>
+<ol>
+<li>Gives better performance</li>
+<li>Support Redundancy and Fault tolerance.</li>
+<li>Support hot spare options.</li>
+<li>Will loose a single disk capacity for using parity information.</li>
+<li>No data loss if a single disk fails. We can rebuilt from parity after replacing the failed disk.</li>
+<li>Suits for transaction oriented environment as the reading will be faster.</li>
+<li>Due to parity overhead, writing will be slow.</li>
+<li>Rebuild takes long time.</li>
+</ol>
+<h4>Requirements</h4>
+<p>Minimum 3 hard drives are required to create Raid 5, but you can add more disks, only if you’ve a dedicated hardware raid controller with multi ports. Here, we are using software RAID and ‘<strong>mdadm</strong>‘ package to create raid.</p>
+<center style="padding-bottom: 20px;padding-top: 10px;"><ins class="adsbygoogle" style="display:inline-block;width:200px;height:90px" data-ad-client="ca-pub-2601749019656699" data-ad-slot="9878518176"></ins><script>(adsbygoogle = window.adsbygoogle || []).push({});</script></center><p><strong>mdadm</strong> is a package which allow us to configure and manage RAID devices in Linux. By default there is no configuration file is available for RAID, we must save the configuration file after creating and configuring RAID setup in separate file called <strong>mdadm.conf</strong>.</p>
+<p>Before moving further, I suggest you to go through the following articles for understanding the basics of RAID in Linux.</p>
+<ol>
+<li><a href="http://www.tecmint.com/understanding-raid-setup-in-linux/" target="_blank">Basic Concepts of RAID in Linux – Part 1</a></li>
+<li><a href="http://www.tecmint.com/create-raid0-in-linux/" target="_blank">Creating RAID 0 (Stripe) in Linux – Part 2</a></li>
+<li><a href="http://www.tecmint.com/create-raid1-in-linux/" target="_blank">Setting up RAID 1 (Mirroring) in Linux – Part 3</a></li>
+</ol>
+<h5>My Server Setup</h5>
+<pre>Operating System :	CentOS 6.5 Final
+IP Address	 :	192.168.0.227
+Hostname	 :	rd5.tecmintlocal.com
+Disk 1 [20GB]	 :	/dev/sdb
+Disk 2 [20GB]	 :	/dev/sdc
+Disk 3 [20GB]	 :	/dev/sdd
+</pre>
+<p>This article is a <strong>Part 4</strong> of a 9-tutorial RAID series, here we are going to setup a software <strong>RAID 5</strong> with distributed parity in Linux systems or servers using three 20GB disks named /dev/sdb, /dev/sdc and /dev/sdd.</p>
+<h3>Step 1: Installing mdadm and Verify Drives</h3>
+<p><strong>1.</strong> As we said earlier, that we’re using CentOS 6.5 Final release for this raid setup, but same steps can be followed for RAID setup in any Linux based distributions.</p>
+<pre># lsb_release -a
+# ifconfig | grep inet
+</pre>
+<div id="attachment_9740" style="width: 630px" class="wp-caption aligncenter"><a href="http://www.tecmint.com/wp-content/uploads/2014/11/CentOS-6.5-Summary.png"><img class="size-medium wp-image-9740" src="./Creating RAID 5 (Striping with Distributed Parity) in Linux - Part 4_files/CentOS-6.5-Summary-620x346.png" alt="Setup Raid 5 in CentOS" width="620" height="346" srcset="http://www.tecmint.com/wp-content/uploads/2014/11/CentOS-6.5-Summary-620x346.png 620w, http://www.tecmint.com/wp-content/uploads/2014/11/CentOS-6.5-Summary.png 628w" sizes="(max-width: 620px) 100vw, 620px" data-lazy-loaded="true" style="display: inline;"><noscript>&lt;img class="size-medium wp-image-9740" src="http://www.tecmint.com/wp-content/uploads/2014/11/CentOS-6.5-Summary-620x346.png" alt="Setup Raid 5 in CentOS" width="620" height="346" srcset="http://www.tecmint.com/wp-content/uploads/2014/11/CentOS-6.5-Summary-620x346.png 620w, http://www.tecmint.com/wp-content/uploads/2014/11/CentOS-6.5-Summary.png 628w" sizes="(max-width: 620px) 100vw, 620px" /&gt;</noscript></a><p class="wp-caption-text">CentOS 6.5 Summary</p></div>
+<p><strong>2.</strong> If you’re following our raid series, we assume that you’ve already installed ‘<strong>mdadm</strong>‘ package, if not, use the following command according to your Linux distribution to install the package.</p>
+<pre># yum install mdadm		[on RedHat systems]
+# apt-get install mdadm 	[on Debain systems]
+</pre>
+<p><strong>3.</strong> After the ‘<strong>mdadm</strong>‘ package installation, let’s list the three 20GB disks which we have added in our system using ‘<strong>fdisk</strong>‘ command.</p>
+<pre># fdisk -l | grep sd
+</pre>
+<div id="attachment_9742" style="width: 543px" class="wp-caption aligncenter"><a href="./Creating RAID 5 (Striping with Distributed Parity) in Linux - Part 4_files/Install-mdadm-Tool.png"><img class="size-full wp-image-9742" src="./Creating RAID 5 (Striping with Distributed Parity) in Linux - Part 4_files/Install-mdadm-Tool.png" alt="Install mdadm Tool in CentOS" width="533" height="324" data-lazy-loaded="true" style="display: inline;"><noscript>&lt;img class="size-full wp-image-9742" src="http://www.tecmint.com/wp-content/uploads/2014/11/Install-mdadm-Tool.png" alt="Install mdadm Tool in CentOS" width="533" height="324" /&gt;</noscript></a><p class="wp-caption-text">Install mdadm Tool</p></div>
+<p><strong>4.</strong> Now it’s time to examine the attached three drives for any existing RAID blocks on these drives using following command.</p>
+<pre># mdadm -E /dev/sd[b-d]
+# mdadm --examine /dev/sdb /dev/sdc /dev/sdd
+</pre>
+<div id="attachment_9743" style="width: 468px" class="wp-caption aligncenter"><a href="./Creating RAID 5 (Striping with Distributed Parity) in Linux - Part 4_files/Examine-Drives-For-Raid.png"><img class="size-full wp-image-9743" src="./Creating RAID 5 (Striping with Distributed Parity) in Linux - Part 4_files/Examine-Drives-For-Raid.png" alt="Examine Drives For Raid" width="458" height="251" data-lazy-loaded="true" style="display: inline;"><noscript>&lt;img class="size-full wp-image-9743" src="http://www.tecmint.com/wp-content/uploads/2014/11/Examine-Drives-For-Raid.png" alt="Examine Drives For Raid" width="458" height="251" /&gt;</noscript></a><p class="wp-caption-text">Examine Drives For Raid</p></div>
+<p><strong style="color: red;">Note</strong>: From the above image illustrated that there is no any super-block detected yet. So, there is no RAID defined in all three drives. Let us start to create one now.</p>
+<h3>Step 2: Partitioning the Disks for RAID</h3>
+<p><strong>5.</strong> First and foremost, we have to partition the disks (<strong>/dev/sdb</strong>, <strong>/dev/sd</strong>c and <strong>/dev/sdd</strong>) before adding to a RAID, So let us define the partition using ‘fdisk’ command, before forwarding to the next steps.</p>
+<pre># fdisk /dev/sdb
+# fdisk /dev/sdc
+# fdisk /dev/sdd
+</pre>
+<h5>Create /dev/sdb Partition</h5>
+<p>Please follow the below instructions to create partition on <strong>/dev/sdb</strong> drive.</p>
+<ol>
+<li>Press ‘<strong>n</strong>‘ for creating new partition.</li>
+<li>Then choose ‘<strong>P</strong>‘ for Primary partition. Here we are choosing Primary because there is no partitions defined yet.</li>
+<li>Then choose ‘<strong>1</strong>‘ to be the first partition. By default it will be <strong>1</strong>.</li>
+<li>Here for cylinder size we don’t have to choose the specified size because we need the whole partition for RAID so just Press Enter two times to choose the default full size.</li>
+<li>Next press ‘<strong>p</strong>‘ to print the created partition.</li>
+<li>Change the Type, If we need to know the every available types Press ‘<strong>L</strong>‘.</li>
+<li>Here, we are selecting ‘<strong>fd</strong>‘ as my type is RAID.</li>
+<li>Next press ‘<strong>p</strong>‘ to print the defined partition.</li>
+<li>Then again use ‘<strong>p</strong>‘ to print the changes what we have made.</li>
+<li>Use ‘<strong>w</strong>‘ to write the changes.</li>
+</ol>
+<div id="attachment_9744" style="width: 403px" class="wp-caption aligncenter"><a href="http://www.tecmint.com/wp-content/uploads/2014/11/Create-sdb-Partition1.png"><img class="size-medium wp-image-9744" src="./Creating RAID 5 (Striping with Distributed Parity) in Linux - Part 4_files/Create-sdb-Partition1-393x450.png" alt="Create sdb Partition" width="393" height="450" srcset="http://www.tecmint.com/wp-content/uploads/2014/11/Create-sdb-Partition1-393x450.png 393w, http://www.tecmint.com/wp-content/uploads/2014/11/Create-sdb-Partition1.png 621w" sizes="(max-width: 393px) 100vw, 393px" data-lazy-loaded="true" style="display: inline;"><noscript>&lt;img class="size-medium wp-image-9744" src="http://www.tecmint.com/wp-content/uploads/2014/11/Create-sdb-Partition1-393x450.png" alt="Create sdb Partition" width="393" height="450" srcset="http://www.tecmint.com/wp-content/uploads/2014/11/Create-sdb-Partition1-393x450.png 393w, http://www.tecmint.com/wp-content/uploads/2014/11/Create-sdb-Partition1.png 621w" sizes="(max-width: 393px) 100vw, 393px" /&gt;</noscript></a><p class="wp-caption-text">Create sdb Partition</p></div>
+<p><strong style="color: red;">Note</strong>: We have to follow the steps mentioned above to create partitions for <strong>sdc</strong> &amp; <strong>sdd</strong> drives too.</p>
+<h5>Create /dev/sdc Partition</h5>
+<p>Now partition the <strong>sdc</strong> and <strong>sdd</strong> drives by following the steps given in the screenshot or you can follow above steps.</p>
+<pre># fdisk /dev/sdc
+</pre>
+<div id="attachment_9745" style="width: 397px" class="wp-caption aligncenter"><a href="http://www.tecmint.com/wp-content/uploads/2014/11/Create-sdc-Partition1.png"><img class="size-medium wp-image-9745" src="./Creating RAID 5 (Striping with Distributed Parity) in Linux - Part 4_files/Create-sdc-Partition1-387x450.png" alt="Create sdc Partition" width="387" height="450" srcset="http://www.tecmint.com/wp-content/uploads/2014/11/Create-sdc-Partition1-387x450.png 387w, http://www.tecmint.com/wp-content/uploads/2014/11/Create-sdc-Partition1.png 615w" sizes="(max-width: 387px) 100vw, 387px" data-lazy-loaded="true" style="display: inline;"><noscript>&lt;img class="size-medium wp-image-9745" src="http://www.tecmint.com/wp-content/uploads/2014/11/Create-sdc-Partition1-387x450.png" alt="Create sdc Partition" width="387" height="450" srcset="http://www.tecmint.com/wp-content/uploads/2014/11/Create-sdc-Partition1-387x450.png 387w, http://www.tecmint.com/wp-content/uploads/2014/11/Create-sdc-Partition1.png 615w" sizes="(max-width: 387px) 100vw, 387px" /&gt;</noscript></a><p class="wp-caption-text">Create sdc Partition</p></div>
+<h5>Create /dev/sdd Partition</h5>
+<pre># fdisk /dev/sdd
+</pre>
+<div id="attachment_9746" style="width: 393px" class="wp-caption aligncenter"><a href="http://www.tecmint.com/wp-content/uploads/2014/11/Create-sdd-Partition1.png"><img class="size-medium wp-image-9746" src="./Creating RAID 5 (Striping with Distributed Parity) in Linux - Part 4_files/Create-sdd-Partition1-383x450.png" alt="Create sdd Partition" width="383" height="450" data-lazy-loaded="true" style="display: inline;"><noscript>&lt;img class="size-medium wp-image-9746" src="http://www.tecmint.com/wp-content/uploads/2014/11/Create-sdd-Partition1-383x450.png" alt="Create sdd Partition" width="383" height="450" /&gt;</noscript></a><p class="wp-caption-text">Create sdd Partition</p></div>
+<p><strong>6.</strong> After creating partitions, check for changes in all three drives sdb, sdc, &amp; sdd.</p>
+<pre># mdadm --examine /dev/sdb /dev/sdc /dev/sdd
+
+or
+
+# mdadm -E /dev/sd[b-c]
+</pre>
+<div id="attachment_9747" style="width: 520px" class="wp-caption aligncenter"><a href="./Creating RAID 5 (Striping with Distributed Parity) in Linux - Part 4_files/Check-Changes-on-Partitions.png"><img class="size-full wp-image-9747" src="./Creating RAID 5 (Striping with Distributed Parity) in Linux - Part 4_files/Check-Changes-on-Partitions.png" alt="Check Partition Changes" width="510" height="244" data-lazy-loaded="true" style="display: inline;"><noscript>&lt;img class="size-full wp-image-9747" src="http://www.tecmint.com/wp-content/uploads/2014/11/Check-Changes-on-Partitions.png" alt="Check Partition Changes" width="510" height="244" /&gt;</noscript></a><p class="wp-caption-text">Check Partition Changes</p></div>
+<p><strong style="color: red;">Note</strong>: In the above pic. depict the type is fd i.e. for RAID.</p>
+<p><strong>7.</strong> Now Check for the RAID blocks in newly created partitions. If no super-blocks detected, than we can move forward to create a new RAID 5 setup on these drives.</p>
+<div id="attachment_9748" style="width: 500px" class="wp-caption aligncenter"><a href="./Creating RAID 5 (Striping with Distributed Parity) in Linux - Part 4_files/Check-Raid-on-Partitions.png"><img class="size-full wp-image-9748" src="./Creating RAID 5 (Striping with Distributed Parity) in Linux - Part 4_files/Check-Raid-on-Partitions.png" alt="Check Raid on Partition" width="490" height="127" data-lazy-loaded="true" style="display: inline;"><noscript>&lt;img class="size-full wp-image-9748" src="http://www.tecmint.com/wp-content/uploads/2014/11/Check-Raid-on-Partitions.png" alt="Check Raid on Partition" width="490" height="127" /&gt;</noscript></a><p class="wp-caption-text">Check Raid on Partition</p></div>
+<h3>Step 3: Creating md device md0</h3>
+<p><strong>8.</strong> Now create a Raid device ‘<strong>md0</strong>‘ (i.e. <strong>/dev/md0</strong>) and include raid level on all newly created partitions (sdb1, sdc1 and sdd1) using below command.</p>
+<pre># mdadm --create /dev/md0 --level=5 --raid-devices=3 /dev/sdb1 /dev/sdc1 /dev/sdd1
+
+or
+
+# mdadm -C /dev/md0 -l=5 -n=3 /dev/sd[b-d]1
+</pre>
+<p><strong>9.</strong> After creating raid device, check and verify the RAID, devices included and RAID Level from the<strong> mdstat</strong> output.</p>
+<pre># cat /proc/mdstat
+</pre>
+<div id="attachment_9749" style="width: 630px" class="wp-caption aligncenter"><a href="http://www.tecmint.com/wp-content/uploads/2014/11/Verify-Raid-Device.png"><img class="size-medium wp-image-9749" src="./Creating RAID 5 (Striping with Distributed Parity) in Linux - Part 4_files/Verify-Raid-Device-620x263.png" alt="Verify Raid Device" width="620" height="263" srcset="http://www.tecmint.com/wp-content/uploads/2014/11/Verify-Raid-Device-620x263.png 620w, http://www.tecmint.com/wp-content/uploads/2014/11/Verify-Raid-Device.png 656w" sizes="(max-width: 620px) 100vw, 620px" data-lazy-loaded="true" style="display: inline;"><noscript>&lt;img class="size-medium wp-image-9749" src="http://www.tecmint.com/wp-content/uploads/2014/11/Verify-Raid-Device-620x263.png" alt="Verify Raid Device" width="620" height="263" srcset="http://www.tecmint.com/wp-content/uploads/2014/11/Verify-Raid-Device-620x263.png 620w, http://www.tecmint.com/wp-content/uploads/2014/11/Verify-Raid-Device.png 656w" sizes="(max-width: 620px) 100vw, 620px" /&gt;</noscript></a><p class="wp-caption-text">Verify Raid Device</p></div>
+<p>If you want to monitor the current building process, you can use ‘<strong>watch</strong>‘ command, just pass through the ‘<strong>cat /proc/mdstat</strong>‘ with watch command which will refresh screen every <strong>1</strong> second.</p>
+<pre># watch -n1 cat /proc/mdstat
+</pre>
+<div id="attachment_9750" style="width: 396px" class="wp-caption aligncenter"><a href="./Creating RAID 5 (Striping with Distributed Parity) in Linux - Part 4_files/Monitor-Raid-Process.png"><img class="size-full wp-image-9750" src="./Creating RAID 5 (Striping with Distributed Parity) in Linux - Part 4_files/Monitor-Raid-Process.png" alt="Monitor Raid Process" width="386" height="86" data-lazy-loaded="true" style="display: inline;"><noscript>&lt;img class="size-full wp-image-9750" src="http://www.tecmint.com/wp-content/uploads/2014/11/Monitor-Raid-Process.png" alt="Monitor Raid Process" width="386" height="86" /&gt;</noscript></a><p class="wp-caption-text">Monitor Raid 5 Process</p></div>
+<div id="attachment_9751" style="width: 630px" class="wp-caption aligncenter"><a href="http://www.tecmint.com/wp-content/uploads/2014/11/Raid-Process-Summary.png"><img class="size-medium wp-image-9751" src="./Creating RAID 5 (Striping with Distributed Parity) in Linux - Part 4_files/Raid-Process-Summary-620x187.png" alt="Raid 5 Process Summary" width="620" height="187" srcset="http://www.tecmint.com/wp-content/uploads/2014/11/Raid-Process-Summary-620x187.png 620w, http://www.tecmint.com/wp-content/uploads/2014/11/Raid-Process-Summary.png 659w" sizes="(max-width: 620px) 100vw, 620px" data-lazy-loaded="true" style="display: inline;"><noscript>&lt;img class="size-medium wp-image-9751" src="http://www.tecmint.com/wp-content/uploads/2014/11/Raid-Process-Summary-620x187.png" alt="Raid 5 Process Summary" width="620" height="187" srcset="http://www.tecmint.com/wp-content/uploads/2014/11/Raid-Process-Summary-620x187.png 620w, http://www.tecmint.com/wp-content/uploads/2014/11/Raid-Process-Summary.png 659w" sizes="(max-width: 620px) 100vw, 620px" /&gt;</noscript></a><p class="wp-caption-text">Raid 5 Process Summary</p></div>
+<p><strong>10.</strong> After creation of raid, Verify the raid devices using the following command.</p>
+<pre># mdadm -E /dev/sd[b-d]1
+</pre>
+<div id="attachment_9752" style="width: 539px" class="wp-caption aligncenter"><a href="http://www.tecmint.com/wp-content/uploads/2014/11/Verify-Raid-Level.png"><img class="size-medium wp-image-9752" src="./Creating RAID 5 (Striping with Distributed Parity) in Linux - Part 4_files/1x1.trans.gif" data-lazy-src="http://www.tecmint.com/wp-content/uploads/2014/11/Verify-Raid-Level-529x450.png" alt="Verify Raid Level" width="529" height="450" srcset="http://www.tecmint.com/wp-content/uploads/2014/11/Verify-Raid-Level-529x450.png 529w, http://www.tecmint.com/wp-content/uploads/2014/11/Verify-Raid-Level.png 629w" sizes="(max-width: 529px) 100vw, 529px"><noscript>&lt;img class="size-medium wp-image-9752" src="http://www.tecmint.com/wp-content/uploads/2014/11/Verify-Raid-Level-529x450.png" alt="Verify Raid Level" width="529" height="450" srcset="http://www.tecmint.com/wp-content/uploads/2014/11/Verify-Raid-Level-529x450.png 529w, http://www.tecmint.com/wp-content/uploads/2014/11/Verify-Raid-Level.png 629w" sizes="(max-width: 529px) 100vw, 529px" /&gt;</noscript></a><p class="wp-caption-text">Verify Raid Level</p></div>
+<p><strong style="color: red;">Note</strong>: The Output of the above command will be little long as it prints the information of all three drives.</p>
+<p><strong>11.</strong> Next, verify the RAID array to assume that the devices which we’ve included in the RAID level are running and started to re-sync.</p>
+<pre># mdadm --detail /dev/md0
+</pre>
+<div id="attachment_9753" style="width: 538px" class="wp-caption aligncenter"><a href="http://www.tecmint.com/wp-content/uploads/2014/11/Verify-Raid-Array.png"><img class="size-medium wp-image-9753" src="./Creating RAID 5 (Striping with Distributed Parity) in Linux - Part 4_files/1x1.trans.gif" data-lazy-src="http://www.tecmint.com/wp-content/uploads/2014/11/Verify-Raid-Array-528x450.png" alt="Verify Raid Array" width="528" height="450" srcset="http://www.tecmint.com/wp-content/uploads/2014/11/Verify-Raid-Array-528x450.png 528w, http://www.tecmint.com/wp-content/uploads/2014/11/Verify-Raid-Array.png 629w" sizes="(max-width: 528px) 100vw, 528px"><noscript>&lt;img class="size-medium wp-image-9753" src="http://www.tecmint.com/wp-content/uploads/2014/11/Verify-Raid-Array-528x450.png" alt="Verify Raid Array" width="528" height="450" srcset="http://www.tecmint.com/wp-content/uploads/2014/11/Verify-Raid-Array-528x450.png 528w, http://www.tecmint.com/wp-content/uploads/2014/11/Verify-Raid-Array.png 629w" sizes="(max-width: 528px) 100vw, 528px" /&gt;</noscript></a><p class="wp-caption-text">Verify Raid Array</p></div>
+<h3>Step 4: Creating file system for md0</h3>
+<p><strong>12.</strong> Create a file system for ‘<strong>md0</strong>‘ device using <strong>ext4</strong> before mounting.</p>
+<pre># mkfs.ext4 /dev/md0
+</pre>
+<div id="attachment_9754" style="width: 630px" class="wp-caption aligncenter"><a href="http://www.tecmint.com/wp-content/uploads/2014/11/Create-md0-Filesystem.png"><img class="size-medium wp-image-9754" src="./Creating RAID 5 (Striping with Distributed Parity) in Linux - Part 4_files/1x1.trans.gif" data-lazy-src="http://www.tecmint.com/wp-content/uploads/2014/11/Create-md0-Filesystem-620x439.png" alt="Create md0 Filesystem" width="620" height="439" srcset="http://www.tecmint.com/wp-content/uploads/2014/11/Create-md0-Filesystem-620x439.png 620w, http://www.tecmint.com/wp-content/uploads/2014/11/Create-md0-Filesystem.png 635w" sizes="(max-width: 620px) 100vw, 620px"><noscript>&lt;img class="size-medium wp-image-9754" src="http://www.tecmint.com/wp-content/uploads/2014/11/Create-md0-Filesystem-620x439.png" alt="Create md0 Filesystem" width="620" height="439" srcset="http://www.tecmint.com/wp-content/uploads/2014/11/Create-md0-Filesystem-620x439.png 620w, http://www.tecmint.com/wp-content/uploads/2014/11/Create-md0-Filesystem.png 635w" sizes="(max-width: 620px) 100vw, 620px" /&gt;</noscript></a><p class="wp-caption-text">Create md0 Filesystem</p></div>
+<p><strong>13.</strong> Now create a directory under ‘<strong>/mnt</strong>‘ then mount the created filesystem under <strong>/mnt/raid5</strong> and check the files under mount point, you will see <strong>lost+found</strong> directory.</p>
+<pre># mkdir /mnt/raid5
+# mount /dev/md0 /mnt/raid5/
+# ls -l /mnt/raid5/
+</pre>
+<p><strong>14.</strong> Create few files under mount point <strong>/mnt/raid5</strong> and append some text in any one of the file to verify the content.</p>
+<pre># touch /mnt/raid5/raid5_tecmint_{1..5}
+# ls -l /mnt/raid5/
+# echo "tecmint raid setups" &gt; /mnt/raid5/raid5_tecmint_1
+# cat /mnt/raid5/raid5_tecmint_1
+# cat /proc/mdstat
+</pre>
+<div id="attachment_9755" style="width: 439px" class="wp-caption aligncenter"><a href="http://www.tecmint.com/wp-content/uploads/2014/11/Mount-Raid-Device.png"><img class="size-medium wp-image-9755" src="./Creating RAID 5 (Striping with Distributed Parity) in Linux - Part 4_files/1x1.trans.gif" data-lazy-src="http://www.tecmint.com/wp-content/uploads/2014/11/Mount-Raid-Device-429x450.png" alt="Mount Raid 5 Device" width="429" height="450" srcset="http://www.tecmint.com/wp-content/uploads/2014/11/Mount-Raid-Device-429x450.png 429w, http://www.tecmint.com/wp-content/uploads/2014/11/Mount-Raid-Device.png 659w" sizes="(max-width: 429px) 100vw, 429px"><noscript>&lt;img class="size-medium wp-image-9755" src="http://www.tecmint.com/wp-content/uploads/2014/11/Mount-Raid-Device-429x450.png" alt="Mount Raid 5 Device" width="429" height="450" srcset="http://www.tecmint.com/wp-content/uploads/2014/11/Mount-Raid-Device-429x450.png 429w, http://www.tecmint.com/wp-content/uploads/2014/11/Mount-Raid-Device.png 659w" sizes="(max-width: 429px) 100vw, 429px" /&gt;</noscript></a><p class="wp-caption-text">Mount Raid Device</p></div>
+<p><strong>15.</strong> We need to add entry in <strong>fstab</strong>, else will not display our mount point after system reboot. To add an entry, we should edit the fstab file and append the following line as shown below. The mount point will differ according to your environment.</p>
+<pre># vim /etc/fstab
+
+/dev/md0                /mnt/raid5              ext4    defaults        0 0
+</pre>
+<div id="attachment_9756" style="width: 630px" class="wp-caption aligncenter"><a href="http://www.tecmint.com/wp-content/uploads/2014/11/Raid-Device-Automount.png"><img class="size-medium wp-image-9756" src="./Creating RAID 5 (Striping with Distributed Parity) in Linux - Part 4_files/1x1.trans.gif" data-lazy-src="http://www.tecmint.com/wp-content/uploads/2014/11/Raid-Device-Automount-620x340.png" alt="Raid 5 Automount" width="620" height="340" srcset="http://www.tecmint.com/wp-content/uploads/2014/11/Raid-Device-Automount-620x340.png 620w, http://www.tecmint.com/wp-content/uploads/2014/11/Raid-Device-Automount.png 658w" sizes="(max-width: 620px) 100vw, 620px"><noscript>&lt;img class="size-medium wp-image-9756" src="http://www.tecmint.com/wp-content/uploads/2014/11/Raid-Device-Automount-620x340.png" alt="Raid 5 Automount" width="620" height="340" srcset="http://www.tecmint.com/wp-content/uploads/2014/11/Raid-Device-Automount-620x340.png 620w, http://www.tecmint.com/wp-content/uploads/2014/11/Raid-Device-Automount.png 658w" sizes="(max-width: 620px) 100vw, 620px" /&gt;</noscript></a><p class="wp-caption-text">Raid 5 Automount</p></div>
+<p><strong>16.</strong> Next, run ‘<strong>mount -av</strong>‘ command to check whether any errors in fstab entry.</p>
+<pre># mount -av
+</pre>
+<div id="attachment_9757" style="width: 595px" class="wp-caption aligncenter"><a href="http://www.tecmint.com/wp-content/uploads/2014/11/Check-Fstab-Errors.png"><img class="size-full wp-image-9757" src="./Creating RAID 5 (Striping with Distributed Parity) in Linux - Part 4_files/1x1.trans.gif" data-lazy-src="http://www.tecmint.com/wp-content/uploads/2014/11/Check-Fstab-Errors.png" alt="Check Fstab Errors" width="585" height="162"><noscript>&lt;img class="size-full wp-image-9757" src="http://www.tecmint.com/wp-content/uploads/2014/11/Check-Fstab-Errors.png" alt="Check Fstab Errors" width="585" height="162" /&gt;</noscript></a><p class="wp-caption-text">Check Fstab Errors</p></div>
+<h3>Step 5: Save Raid 5 Configuration</h3>
+<p><strong>17.</strong> As mentioned earlier in requirement section, by default RAID don’t have a config file. We have to save it manually. If this step is not followed RAID device will not be in md0, it will be in some other random number.</p>
+<p>So, we must have to save the configuration before system reboot. If the configuration is saved it will be loaded to the kernel during the system reboot and RAID will also gets loaded.</p>
+<pre># mdadm --detail --scan --verbose &gt;&gt; /etc/mdadm.conf
+</pre>
+<div id="attachment_9758" style="width: 630px" class="wp-caption aligncenter"><a href="http://www.tecmint.com/wp-content/uploads/2014/11/Save-Raid-5-Configuration.png"><img class="size-medium wp-image-9758" src="./Creating RAID 5 (Striping with Distributed Parity) in Linux - Part 4_files/1x1.trans.gif" data-lazy-src="http://www.tecmint.com/wp-content/uploads/2014/11/Save-Raid-5-Configuration-620x180.png" alt="Save Raid 5 Configuration" width="620" height="180" srcset="http://www.tecmint.com/wp-content/uploads/2014/11/Save-Raid-5-Configuration-620x180.png 620w, http://www.tecmint.com/wp-content/uploads/2014/11/Save-Raid-5-Configuration.png 645w" sizes="(max-width: 620px) 100vw, 620px"><noscript>&lt;img class="size-medium wp-image-9758" src="http://www.tecmint.com/wp-content/uploads/2014/11/Save-Raid-5-Configuration-620x180.png" alt="Save Raid 5 Configuration" width="620" height="180" srcset="http://www.tecmint.com/wp-content/uploads/2014/11/Save-Raid-5-Configuration-620x180.png 620w, http://www.tecmint.com/wp-content/uploads/2014/11/Save-Raid-5-Configuration.png 645w" sizes="(max-width: 620px) 100vw, 620px" /&gt;</noscript></a><p class="wp-caption-text">Save Raid 5 Configuration</p></div>
+<p><strong style="color: red;">Note</strong>: Saving the configuration will keep the RAID level stable in md0 device.</p>
+<h3>Step 6: Adding Spare Drives</h3>
+<p><strong>18.</strong> What the use of adding a spare drive? its very useful if we have a spare drive, if any one of the disk fails in our array, this spare drive will get active and rebuild the process and sync the data from other disk, so we can see a redundancy here.</p>
+<p>For more instructions on how to add spare drive and check Raid 5 fault tolerance, read <strong>#Step 6</strong> and <strong>#Step 7</strong> in the following article.</p>
+<ol>
+<li><a href="http://www.tecmint.com/create-raid-6-in-linux/" target="_blank">Add Spare Drive to Raid 5 Setup</a></li>
+</ol>
+<h3>Conclusion</h3>
+<p>Here, in this article, we have seen how to setup a RAID 5 using three number of disks. Later in my upcoming articles, we will see how to troubleshoot when a disk fails in RAID 5 and how to replace for recovery.</p>
+							
+						</div>
+						<div class="sharrre-container" style="position: relative; top: 7475.47px; left: 0px;">
+	<span>Share</span>
+	<div id="twitter" data-url="http://www.tecmint.com/create-raid-5-in-linux/" data-text="Creating RAID 5 (Striping with Distributed Parity) in Linux – Part 4" data-title="Tweet" class="sharrre"><a class="box" href="http://www.tecmint.com/create-raid-5-in-linux/#"><div class="count" href="#">+</div><div class="share"><i class="fa fa-twitter"></i></div></a></div>
+	<div id="facebook" data-url="http://www.tecmint.com/create-raid-5-in-linux/" data-text="Creating RAID 5 (Striping with Distributed Parity) in Linux – Part 4" data-title="Like" class="sharrre"><a class="box" href="http://www.tecmint.com/create-raid-5-in-linux/#"><div class="count" href="#">150</div><div class="share"><i class="fa fa-facebook-square"></i></div></a></div>
+	<div id="googleplus" data-url="http://www.tecmint.com/create-raid-5-in-linux/" data-text="Creating RAID 5 (Striping with Distributed Parity) in Linux – Part 4" data-title="+1" class="sharrre"><a class="box" href="http://www.tecmint.com/create-raid-5-in-linux/#"><div class="count" href="#">13</div><div class="share"><i class="fa fa-google-plus-square"></i></div></a></div>
+	<div id="linkedin" data-url="http://www.tecmint.com/create-raid-5-in-linux/" data-text="Creating RAID 5 (Striping with Distributed Parity) in Linux – Part 4" data-title="Share It" class="sharrre"><a class="box" href="http://www.tecmint.com/create-raid-5-in-linux/#" rel="nofollow"><div class="count" href="#">8</div><div class="share"><i class="fa fa-linkedin"></i></div></a></div>
+<div style="text-align:center;font-weight:600;padding-top:5px;"><a href="http://www.tecmint.com/create-raid-5-in-linux/#comments"><i class="fa fa-comments-o"></i></a><a href="http://www.tecmint.com/create-raid-5-in-linux/#comments" class="comments-link">2 <span style="font-size:10px;color:#2776c6;margin-top:-8px;">comments</span></a></div>
+
+</div><!--/.sharrre-container-->
+
+<script type="text/javascript">
+	// Sharrre
+	jQuery(document).ready(function(){
+		jQuery('#twitter').sharrre({
+			share: {
+				twitter: true
+			},
+			template: '<a class="box" href="#"><div class="count" href="#">{total}</div><div class="share"><i class="fa fa-twitter"></i></div></a>',
+			enableHover: false,
+			enableTracking: true,
+			buttons: { twitter: {via: 'tecmint'}},
+			click: function(api, options){
+				api.simulateClick();
+				api.openPopup('twitter');
+			}
+		});
+		jQuery('#facebook').sharrre({
+			share: {
+				facebook: true
+			},
+			template: '<a class="box" href="#"><div class="count" href="#">{total}</div><div class="share"><i class="fa fa-facebook-square"></i></div></a>',
+			enableHover: false,
+			enableTracking: true,
+			click: function(api, options){
+				api.simulateClick();
+				api.openPopup('facebook');
+			}
+		});
+		jQuery('#googleplus').sharrre({
+			share: {
+				googlePlus: true
+			},
+			template: '<a class="box" href="#"><div class="count" href="#">{total}</div><div class="share"><i class="fa fa-google-plus-square"></i></div></a>',
+			enableHover: false,
+			enableTracking: true,
+			urlCurl: 'http://www.tecmint.com/wp-content/themes/tecmint/js/sharrre.php',
+			click: function(api, options){
+				api.simulateClick();
+				api.openPopup('googlePlus');
+			}
+		});
+
+jQuery('#linkedin').sharrre({
+			share: {
+				linkedin: true
+			},
+			template: '<a class="box" href="#" rel="nofollow"><div class="count" href="#">{total}</div><div class="share"><i class="fa fa-linkedin"></i></div></a>',
+			enableHover: false,
+			enableTracking: true,
+			buttons: {
+			linkedin: {
+				description: 'Creating RAID 5 (Striping with Distributed Parity) in Linux &#8211; Part 4',media: 'http://www.tecmint.com/wp-content/uploads/2014/11/setup-raid-5-in-linux1.jpg'				}
+			},
+			click: function(api, options){
+				api.simulateClick();
+				api.openPopup('linkedin');
+			}
+		});
+
+
+				
+				
+			// Scrollable sharrre bar, contributed by Erik Frye. Awesome!
+			var shareContainer = jQuery(".sharrre-container"),
+			header = jQuery('#header'),
+			postEntry = jQuery('.entry'),
+			$window = jQuery(window),
+			distanceFromTop = 20,
+			startSharePosition = shareContainer.offset(),
+			contentBottom = postEntry.offset().top + postEntry.outerHeight(),
+			topOfTemplate = header.offset().top;
+			getTopSpacing();
+
+			shareScroll = function(){
+				if($window.width() > 719){	
+					var scrollTop = $window.scrollTop() + topOfTemplate,
+					stopLocation = contentBottom - (shareContainer.outerHeight() + topSpacing);
+					if(scrollTop > stopLocation){
+						shareContainer.offset({top: contentBottom - shareContainer.outerHeight(),left: startSharePosition.left});
+					}
+					else if(scrollTop >= postEntry.offset().top-topSpacing){
+						shareContainer.offset({top: scrollTop + topSpacing, left: startSharePosition.left});
+					}else if(scrollTop < startSharePosition.top+(topSpacing-1)){
+						shareContainer.offset({top: startSharePosition.top,left:startSharePosition.left});
+					}
+				}
+			},
+
+			shareMove = function(){
+				startSharePosition = shareContainer.offset();
+				contentBottom = postEntry.offset().top + postEntry.outerHeight();
+				topOfTemplate = header.offset().top;
+				getTopSpacing();
+			};
+
+			/* As new images load the page content body gets longer. The bottom of the content area needs to be adjusted in case images are still loading. */
+			setTimeout(function() {
+				contentBottom = postEntry.offset().top + postEntry.outerHeight();
+			}, 2000);
+
+			if (window.addEventListener) {
+				window.addEventListener('scroll', shareScroll, false);
+				window.addEventListener('resize', shareMove, false);
+			} else if (window.attachEvent) {
+				window.attachEvent('onscroll', shareScroll);
+				window.attachEvent('onresize', shareMove);
+			}
+
+			function getTopSpacing(){
+				if($window.width() > 1024)
+					topSpacing = distanceFromTop + jQuery('.nav-wrap').outerHeight();
+				else
+					topSpacing = distanceFromTop;
+			}
+				
+	});
+</script>						<div class="clear"></div>				
+					</div><!--/.entry-->
+					
+				</div><!--/.post-inner-->
+
+			</article><!--/.post-->				
+				
+		<div class="clear"></div>
+		   		<div class="clear"></div>
+
+<div class="ads-inner-mobile">
+<center style="padding-top:30px;">
+<!-- Post-Bottom-Inner-300x250 -->
+<ins class="adsbygoogle" style="display:inline-block;width:300px;height:250px" data-ad-client="ca-pub-2601749019656699" data-ad-slot="7807254572"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+</center>
+</div>
+<div class="clear"></div>
+<div class="discussion">
+  <p>If you have any questions or problems regarding this article and want help within 24 Hours? <a target="_blank" href="http://linuxsay.com/" onclick="ga(&#39;send&#39;,&#39;event&#39;,&#39;Linuxsay Discussion Forum&#39;,&#39;linuxsay.com&#39;)"><i class="fa fa-arrow-right"></i>
+ Ask Now <i class="fa fa-arrow-left"></i></a></p>
+</div>
+<div class="clear"></div>
+<p style="background: #ffffa0 none repeat scroll 0 0;font-weight:400;color:#939390; border: 1px solid #e5e597;padding: 0.5rem 0.625rem;margin-bottom:20px;"><i class="fa fa-heart col-love-l"></i> <b>Support TecMint</b>: Did you find this tutorial helpful?. Please help to keep it alive by donating. Every cent counts! - <a style="font-weight:500;font-size:18px;text-decoration:underline" onclick="ga(&#39;send&#39;,&#39;event&#39;,&#39;Support TecMint - Donation&#39;,&#39;PayPal Donation&#39;)" href="http://www.tecmint.com/donate-to-tecmint/" target="_blank">Donate Now</a></p>
+<div class="clear"></div>
+		<p class="post-tags"><span>Tags:</span> <a href="http://www.tecmint.com/tag/mdadm/" rel="tag">mdadm</a><a href="http://www.tecmint.com/tag/raid-5/" rel="tag">raid 5</a></p>					<div class="author-bio">
+				<div class="bio-avatar"><img alt="" src="./Creating RAID 5 (Striping with Distributed Parity) in Linux - Part 4_files/1x1.trans.gif" data-lazy-src="http://1.gravatar.com/avatar/ac28fd5af214472d700e5971681bd588?s=128&amp;d=blank&amp;r=g" srcset="http://1.gravatar.com/avatar/ac28fd5af214472d700e5971681bd588?s=256&amp;d=blank&amp;r=g 2x" class="avatar avatar-128 photo" height="128" width="128"><noscript>&lt;img alt='' src="http://1.gravatar.com/avatar/ac28fd5af214472d700e5971681bd588?s=128&amp;#038;d=blank&amp;#038;r=g" srcset='http://1.gravatar.com/avatar/ac28fd5af214472d700e5971681bd588?s=256&amp;amp;d=blank&amp;amp;r=g 2x' class='avatar avatar-128 photo' height='128' width='128' /&gt;</noscript></div>
+<p style="float:right; font-weight:600;"><a target="_blank" class="author-link" href="http://www.tecmint.com/author/babinlonston/" rel="author">View all Posts</a></p>
+				<p class="bio-name">Babin Lonston</p>
+				<p class="bio-desc">I'm Working as a System Administrator for last 10 year's with 4 years experience with Linux Distributions, fall in love with text based operating systems.</p>
+<p><span style="font-size:20px;font-weight:400;color:#a2042e">Your name can also be listed here. Got a tip? <a style="text-decoration:underline;" target="_blank" href="http://www.tecmint.com/submit-articles/">Submit it here</a> to become an <b>TecMint</b> author.</span></p>
+				<div class="clear"></div>
+			</div>
+		
+<div id="exam_announcement">
+<span style="color:#F75D59;font-weight:400; font-size:18px;">Receive Your Free Complimentary eBook NOW!</span> - <span style="color:#2776c6;font-weight:600; font-size:18px; text-decoration:underline;"><script type="text/javascript">
+var total_images = 9;
+var random_number = Math.floor((Math.random()*total_images));
+var random_img = new Array();
+random_img[0] = '<a target="_blank" rel="nofollow" href="http://tecmint.tradepub.com/free/w_mach01/prgm.cgi">Introduction to Linux - A Hands on Guide</a>';
+random_img[1] = '<a target="_blank" rel="nofollow" href="http://tecmint.tradepub.com/free/w_oreb01/prgm.cgi">Linux Kernel In A Nutshell - Configuration and Building</a>';
+random_img[2] = '<a target="_blank" rel="nofollow" href="http://tecmint.tradepub.com/free/w_linu02/prgm.cgi">Beyond Linux® From Scratch - Version 6.3</a>';
+random_img[3] = '<a target="_blank" rel="nofollow" href="http://tecmint.tradepub.com/free/w_make184/prgm.cgi">Can You Run It On Linux? 10 Vital Apps You Will Want When You Switch</a>';
+random_img[4] = '<a target="_blank" rel="nofollow" href="http://tecmint.tradepub.com/free/w_make180/prgm.cgi">4 Promising Linux Distros To Look Forward To In 2015</a>';
+random_img[5] = '<a target="_blank" rel="nofollow" href="http://tecmint.tradepub.com/free/w_opeb01/prgm.cgi">Securing & Optimizing Linux: The Hacking Solution (v.3.0)</a>';
+random_img[6] = '<a target="_blank" rel="nofollow" href="http://tecmint.tradepub.com/free/w_infk03/prgm.cgi">Self-Service Linux®: Mastering the Art of Problem Determination</a>';
+random_img[7] = '<a target="_blank" rel="nofollow" href="http://tecmint.tradepub.com/free/w_infk10/prgm.cgi">Understanding the Linux® Virtual Memory Manager</a>';
+random_img[8] = '<a target="_blank" rel="nofollow" href="http://tecmint.tradepub.com/free/w_ubub01/prgm.cgi">Ubuntu Documentation: Ubuntu Server Guide 2014</a>';
+document.write(random_img[random_number]);
+</script><a target="_blank" rel="nofollow" href="http://tecmint.tradepub.com/free/w_make184/prgm.cgi">Can You Run It On Linux? 10 Vital Apps You Will Want When You Switch</a></span></div>
+<div class="hr"></div>
+<div class="freebooks">
+<center><h1 style="padding-bottom:15px;font-size:25px;">Download Free Linux eBooks</h1></center>
+<div class="grid one-fourth">
+<a rel="nofollow" target="_blank" href="http://tecmint.tradepub.com/free/w_advb01/prgm.cgi" onclick="ga(&#39;send&#39;,&#39;event&#39;,&#39;Advance-Bash-Scripting&#39;,&#39;tecmint.tradepub.com&#39;)"><img title="Advanced Bash-Scripting Guide" src="./Creating RAID 5 (Striping with Distributed Parity) in Linux - Part 4_files/w_advb01c4.gif" alt="Advanced Bash-Scripting Guide"></a>
+</div>
+<div class="grid one-fourth">
+   <a rel="nofollow" target="_blank" href="http://tecmint.tradepub.com/free/w_wile13/prgm.cgi" onclick="ga(&#39;send&#39;,&#39;event&#39;,&#39;Linux-Bible&#39;,&#39;tecmint.tradepub.com&#39;)"><img title="Linux Bible" src="./Creating RAID 5 (Striping with Distributed Parity) in Linux - Part 4_files/w_wile13c4.gif" alt="Linux Bible"></a>
+</div>
+<div class="grid one-fourth">
+   <a rel="nofollow" target="_blank" href="http://tecmint.tradepub.com/free/w_make07/prgm.cgi" onclick="ga(&#39;send&#39;,&#39;event&#39;,&#39;Linux-Newbies-Guide&#39;,&#39;tecmint.tradepub.com&#39;)"><img title="A Newbie&#39;s Getting Started Guide to Linux" src="./Creating RAID 5 (Striping with Distributed Parity) in Linux - Part 4_files/w_make07c4.gif" alt="A Newbie&#39;s Getting Started Guide to Linux"></a>
+</div>
+
+<div class="grid one-fourth last">
+   <a rel="nofollow" target="_blank" href="http://tecmint.tradepub.com/free/w_mach01/prgm.cgi" onclick="ga(&#39;send&#39;,&#39;event&#39;,&#39;Introduction to Linux - A Hands on Guide&#39;,&#39;tecmint.tradepub.com&#39;)"><img title="Introduction to Linux - A Hands on Guide" src="./Creating RAID 5 (Striping with Distributed Parity) in Linux - Part 4_files/w_mach01c4.gif" alt="Introduction to Linux - A Hands on Guide"></a>
+</div>
+<div class="clear"></div>
+</div>
+		
+			<ul class="post-nav group">
+		<li class="next"><a href="http://www.tecmint.com/installing-network-services-and-configuring-services-at-system-boot/" rel="next"><i class="fa fa-chevron-right"></i><strong>Next story</strong> <span>LFCE: Installing Network Services and Configuring Automatic Startup at Boot – Part 1</span></a></li>
+		<li class="previous"><a href="http://www.tecmint.com/usermod-command-examples/" rel="prev"><i class="fa fa-chevron-left"></i><strong>Previous story</strong> <span>A Complete Guide to Usage of ‘usermod’ command – 15 Practical Examples with Screenshots</span></a></li>
+	</ul>
+		
+		
+
+<h4 class="heading">
+	<i class="fa fa-hand-o-right"></i>You may also like...</h4>
+
+<ul class="related-posts group">
+	
+		<li class="related post-hover">
+		<article class="post-9272 post type-post status-publish format-standard has-post-thumbnail hentry category-raid tag-mdadm tag-raid0">
+
+			<div class="post-thumbnail">
+				<a href="http://www.tecmint.com/create-raid0-in-linux/" title="Creating Software RAID0 (Stripe) on ‘Two Devices’ Using ‘mdadm’ Tool in Linux – Part 2">
+											<img width="520" height="245" src="./Creating RAID 5 (Striping with Distributed Parity) in Linux - Part 4_files/1x1.trans.gif" data-lazy-src="http://www.tecmint.com/wp-content/uploads/2014/10/Raid-0-in-Linux-520x245.jpg" class="attachment-thumb-medium size-thumb-medium wp-post-image" alt="Create Raid 0 in Linux" srcset="http://www.tecmint.com/wp-content/uploads/2014/10/Raid-0-in-Linux-620x292.jpg 620w, http://www.tecmint.com/wp-content/uploads/2014/10/Raid-0-in-Linux-520x245.jpg 520w, http://www.tecmint.com/wp-content/uploads/2014/10/Raid-0-in-Linux.jpg 720w" sizes="(max-width: 520px) 100vw, 520px"><noscript>&lt;img width="520" height="245" src="http://www.tecmint.com/wp-content/uploads/2014/10/Raid-0-in-Linux-520x245.jpg" class="attachment-thumb-medium size-thumb-medium wp-post-image" alt="Create Raid 0 in Linux" srcset="http://www.tecmint.com/wp-content/uploads/2014/10/Raid-0-in-Linux-620x292.jpg 620w, http://www.tecmint.com/wp-content/uploads/2014/10/Raid-0-in-Linux-520x245.jpg 520w, http://www.tecmint.com/wp-content/uploads/2014/10/Raid-0-in-Linux.jpg 720w" sizes="(max-width: 520px) 100vw, 520px" /&gt;</noscript>																								</a>
+									<a class="post-comments" href="http://www.tecmint.com/create-raid0-in-linux/#comments"><span><i class="fa fa-comments-o"></i>26</span></a>
+							</div><!--/.post-thumbnail-->
+			
+			<div class="related-inner">
+				
+				<h4 class="post-title">
+					<a href="http://www.tecmint.com/create-raid0-in-linux/" rel="bookmark" title="Creating Software RAID0 (Stripe) on ‘Two Devices’ Using ‘mdadm’ Tool in Linux – Part 2">Creating Software RAID0 (Stripe) on ‘Two Devices’ Using ‘mdadm’ Tool in Linux – Part 2</a>
+				</h4><!--/.post-title-->
+				
+				<div class="post-meta group">
+					<p class="post-date">17 Oct, 2014</p>
+				</div><!--/.post-meta-->
+			
+			</div><!--/.related-inner-->
+
+		</article>
+	</li><!--/.related-->
+		<li class="related post-hover">
+		<article class="post-16014 post type-post status-publish format-standard has-post-thumbnail hentry category-raid tag-mdadm">
+
+			<div class="post-thumbnail">
+				<a href="http://www.tecmint.com/manage-software-raid-devices-in-linux-with-mdadm/" title="How to Manage Software RAID’s in Linux with ‘Mdadm’ Tool – Part 9">
+											<img width="716" height="343" src="./Creating RAID 5 (Striping with Distributed Parity) in Linux - Part 4_files/1x1.trans.gif" data-lazy-src="http://www.tecmint.com/wp-content/uploads/2015/10/Manage-Raid-with-Mdadm-Tool-in-Linux.png" class="attachment-thumb-medium size-thumb-medium wp-post-image" alt="Manage Raid Devices with Mdadm in Linux" srcset="http://www.tecmint.com/wp-content/uploads/2015/10/Manage-Raid-with-Mdadm-Tool-in-Linux-620x297.png 620w, http://www.tecmint.com/wp-content/uploads/2015/10/Manage-Raid-with-Mdadm-Tool-in-Linux.png 716w" sizes="(max-width: 716px) 100vw, 716px"><noscript>&lt;img width="716" height="343" src="http://www.tecmint.com/wp-content/uploads/2015/10/Manage-Raid-with-Mdadm-Tool-in-Linux.png" class="attachment-thumb-medium size-thumb-medium wp-post-image" alt="Manage Raid Devices with Mdadm in Linux" srcset="http://www.tecmint.com/wp-content/uploads/2015/10/Manage-Raid-with-Mdadm-Tool-in-Linux-620x297.png 620w, http://www.tecmint.com/wp-content/uploads/2015/10/Manage-Raid-with-Mdadm-Tool-in-Linux.png 716w" sizes="(max-width: 716px) 100vw, 716px" /&gt;</noscript>																								</a>
+									<a class="post-comments" href="http://www.tecmint.com/manage-software-raid-devices-in-linux-with-mdadm/#respond"><span><i class="fa fa-comments-o"></i>0</span></a>
+							</div><!--/.post-thumbnail-->
+			
+			<div class="related-inner">
+				
+				<h4 class="post-title">
+					<a href="http://www.tecmint.com/manage-software-raid-devices-in-linux-with-mdadm/" rel="bookmark" title="How to Manage Software RAID’s in Linux with ‘Mdadm’ Tool – Part 9">How to Manage Software RAID’s in Linux with ‘Mdadm’ Tool – Part 9</a>
+				</h4><!--/.post-title-->
+				
+				<div class="post-meta group">
+					<p class="post-date">8 Oct, 2015</p>
+				</div><!--/.post-meta-->
+			
+			</div><!--/.related-inner-->
+
+		</article>
+	</li><!--/.related-->
+		<li class="related post-hover">
+		<article class="post-9169 post type-post status-publish format-standard has-post-thumbnail hentry category-raid tag-raid-2">
+
+			<div class="post-thumbnail">
+				<a href="http://www.tecmint.com/understanding-raid-setup-in-linux/" title="Introduction to RAID, Concepts of RAID and RAID Levels – Part 1">
+											<img width="520" height="245" src="./Creating RAID 5 (Striping with Distributed Parity) in Linux - Part 4_files/1x1.trans.gif" data-lazy-src="http://www.tecmint.com/wp-content/uploads/2014/10/Introdution-to-RAID-520x245.jpg" class="attachment-thumb-medium size-thumb-medium wp-post-image" alt="Introdution to RAID" srcset="http://www.tecmint.com/wp-content/uploads/2014/10/Introdution-to-RAID-620x292.jpg 620w, http://www.tecmint.com/wp-content/uploads/2014/10/Introdution-to-RAID-520x245.jpg 520w, http://www.tecmint.com/wp-content/uploads/2014/10/Introdution-to-RAID.jpg 720w" sizes="(max-width: 520px) 100vw, 520px"><noscript>&lt;img width="520" height="245" src="http://www.tecmint.com/wp-content/uploads/2014/10/Introdution-to-RAID-520x245.jpg" class="attachment-thumb-medium size-thumb-medium wp-post-image" alt="Introdution to RAID" srcset="http://www.tecmint.com/wp-content/uploads/2014/10/Introdution-to-RAID-620x292.jpg 620w, http://www.tecmint.com/wp-content/uploads/2014/10/Introdution-to-RAID-520x245.jpg 520w, http://www.tecmint.com/wp-content/uploads/2014/10/Introdution-to-RAID.jpg 720w" sizes="(max-width: 520px) 100vw, 520px" /&gt;</noscript>																								</a>
+									<a class="post-comments" href="http://www.tecmint.com/understanding-raid-setup-in-linux/#comments"><span><i class="fa fa-comments-o"></i>13</span></a>
+							</div><!--/.post-thumbnail-->
+			
+			<div class="related-inner">
+				
+				<h4 class="post-title">
+					<a href="http://www.tecmint.com/understanding-raid-setup-in-linux/" rel="bookmark" title="Introduction to RAID, Concepts of RAID and RAID Levels – Part 1">Introduction to RAID, Concepts of RAID and RAID Levels – Part 1</a>
+				</h4><!--/.post-title-->
+				
+				<div class="post-meta group">
+					<p class="post-date">13 Oct, 2014</p>
+				</div><!--/.post-meta-->
+			
+			</div><!--/.related-inner-->
+
+		</article>
+	</li><!--/.related-->
+	
+</ul><!--/.post-related-->
+
+		
+		
+<section id="comments" class="themeform">
+	
+		
+		<h3 class="heading">2 Responses</h3>
+	
+		<ul class="comment-tabs group">
+			<li class="active"><a href="http://www.tecmint.com/create-raid-5-in-linux/#commentlist-container"><i class="fa fa-comments-o"></i>Comments<span>2</span></a></li>
+			<li><a href="http://www.tecmint.com/create-raid-5-in-linux/#pinglist-container"><i class="fa fa-share"></i>Pingbacks<span>0</span></a></li>
+		</ul>
+
+				<div id="commentlist-container" class="comment-tab">
+			
+			<ol class="commentlist">
+						<li class="comment even thread-even depth-1" id="comment-640931">
+				<div id="div-comment-640931" class="comment-body">
+				<div class="comment-author vcard">
+			<img alt="" src="./Creating RAID 5 (Striping with Distributed Parity) in Linux - Part 4_files/1x1.trans.gif" data-lazy-src="http://0.gravatar.com/avatar/f346bc083381e2733e5107f736ec3125?s=96&amp;d=blank&amp;r=g" srcset="http://0.gravatar.com/avatar/f346bc083381e2733e5107f736ec3125?s=192&amp;d=blank&amp;r=g 2x" class="avatar avatar-96 photo" height="96" width="96"><noscript>&lt;img alt='' src="http://0.gravatar.com/avatar/f346bc083381e2733e5107f736ec3125?s=96&amp;#038;d=blank&amp;#038;r=g" srcset='http://0.gravatar.com/avatar/f346bc083381e2733e5107f736ec3125?s=192&amp;amp;d=blank&amp;amp;r=g 2x' class='avatar avatar-96 photo' height='96' width='96' /&gt;</noscript>			<cite class="fn"><a href="http://dellspergerdevelopment.com/" rel="external nofollow" class="url">David Dellsperger</a></cite> <span class="says">says:</span>		</div>
+		
+		<div class="comment-meta commentmetadata"><a href="http://www.tecmint.com/create-raid-5-in-linux/#comment-640931">
+			August 10, 2015 at 5:36 am</a>		</div>
+
+		<p>If you are using this setup with drives that are &gt; 2TB you cannot use fdisk, you must use parted to create the partitions.  Everything else can be the same, however.</p>
+
+		<div class="reply"><a rel="nofollow" class="comment-reply-link" href="http://www.tecmint.com/create-raid-5-in-linux/?replytocom=640931#respond" onclick="return addComment.moveForm( &quot;div-comment-640931&quot;, &quot;640931&quot;, &quot;respond&quot;, &quot;9738&quot; )" aria-label="Reply to David Dellsperger">Reply</a></div>
+				</div>
+		</li><!-- #comment-## -->
+		<li class="comment odd alt thread-odd thread-alt depth-1" id="comment-430205">
+				<div id="div-comment-430205" class="comment-body">
+				<div class="comment-author vcard">
+			<img alt="" src="./Creating RAID 5 (Striping with Distributed Parity) in Linux - Part 4_files/1x1.trans.gif" data-lazy-src="http://0.gravatar.com/avatar/0d1547593d4f9909ff75ff89e023b407?s=96&amp;d=blank&amp;r=g" srcset="http://0.gravatar.com/avatar/0d1547593d4f9909ff75ff89e023b407?s=192&amp;d=blank&amp;r=g 2x" class="avatar avatar-96 photo" height="96" width="96"><noscript>&lt;img alt='' src="http://0.gravatar.com/avatar/0d1547593d4f9909ff75ff89e023b407?s=96&amp;#038;d=blank&amp;#038;r=g" srcset='http://0.gravatar.com/avatar/0d1547593d4f9909ff75ff89e023b407?s=192&amp;amp;d=blank&amp;amp;r=g 2x' class='avatar avatar-96 photo' height='96' width='96' /&gt;</noscript>			<cite class="fn">Richard Teusch</cite> <span class="says">says:</span>		</div>
+		
+		<div class="comment-meta commentmetadata"><a href="http://www.tecmint.com/create-raid-5-in-linux/#comment-430205">
+			December 24, 2014 at 1:18 am</a>		</div>
+
+		<p>Read errors is the serious issue with RAID.<br>
+If the disk fails, the RAID will have to read all the disks that remain in the RAID group to rebuild.<br>
+A read error during the rebuild will cause data loss since we need to read all other disks during rebuild. </p>
+<p><a href="http://www.zdnet.com/article/why-raid-5-stops-working-in-2009/" rel="nofollow">http://www.zdnet.com/article/why-raid-5-stops-working-in-2009/</a></p>
+<p>SATA disks experience read failure once every 12,5 TB of read operations, that means if the data on the surviving disks totals 12.5TB, the rebuild is certain to fail. </p>
+<p><a href="http://www.lucidti.com/zfs-checksums-add-reliability-to-nas-storage" rel="nofollow">http://www.lucidti.com/zfs-checksums-add-reliability-to-nas-storage</a></p>
+
+		<div class="reply"><a rel="nofollow" class="comment-reply-link" href="http://www.tecmint.com/create-raid-5-in-linux/?replytocom=430205#respond" onclick="return addComment.moveForm( &quot;div-comment-430205&quot;, &quot;430205&quot;, &quot;respond&quot;, &quot;9738&quot; )" aria-label="Reply to Richard Teusch">Reply</a></div>
+				</div>
+		</li><!-- #comment-## -->
+	
+			</ol><!--/.commentlist-->
+			
+						
+		</div>	
+				
+		
+		
+					<div id="respond" class="comment-respond">
+			<h3 id="reply-title" class="comment-reply-title">Leave a Reply <small><a rel="nofollow" id="cancel-comment-reply-link" href="http://www.tecmint.com/create-raid-5-in-linux/#respond" style="display:none;">Cancel reply</a></small></h3>				<form action="http://www.tecmint.com/wp-comments-post.php" method="post" id="commentform" class="comment-form">
+					<p class="comment-notes"><span id="email-notes">Your email address will not be published.</span> Required fields are marked <span class="required">*</span></p><p class="comment-form-comment"><label for="comment">Comment</label> <textarea id="comment" name="comment" cols="45" rows="8" aria-required="true" required="required"></textarea></p><p class="comment-form-author"><label for="author">Name <span class="required">*</span></label> <input id="author" name="author" type="text" value="" size="30" aria-required="true" required="required"></p>
+<p class="comment-form-email"><label for="email">Email <span class="required">*</span></label> <input id="email" name="email" type="text" value="" size="30" aria-describedby="email-notes" aria-required="true" required="required"></p>
+<p class="comment-form-url"><label for="url">Website</label> <input id="url" name="url" type="text" value="" size="30"></p>
+<p class="form-submit"><input name="submit" type="submit" id="submit" class="submit" value="Post Comment"> <input type="hidden" name="comment_post_ID" value="9738" id="comment_post_ID">
+<input type="hidden" name="comment_parent" id="comment_parent" value="0">
+</p><p style="display: none;"><input type="hidden" id="akismet_comment_nonce" name="akismet_comment_nonce" value="7cc589966a"></p><p style="display: none;"></p>				<input type="hidden" id="ak_js" name="ak_js" value="1454067808263"></form>
+					</div><!-- #respond -->
+		
+</section><!--/#comments-->		
+	</div><!--/.pad-->
+	
+</section><!--/.content-->
+
+
+	<div class="sidebar s1">
+		
+		<a class="sidebar-toggle" title="Expand Sidebar"><i class="fa icon-sidebar-toggle"></i></a>
+		
+		<div class="sidebar-content">
+			
+			<div class="sidebar-top group">
+				<span style="color:#002873; font-weight:600; font-size:20px;">I <i class="fa fa-heart col-love-l"></i> TecMint :</span>
+				<ul class="social-links"><li><a rel="nofollow" class="social-tooltip" title="twitter" href="http://twitter.com/tecmint" target="Array"><i class="fa fa-twitter" style="color: #33ccff;"></i></a></li><li><a rel="nofollow" class="social-tooltip" title="facebook" href="https://www.facebook.com/TecMint" target="Array"><i class="fa fa-facebook" style="color: #3b5998;"></i></a></li><li><a rel="nofollow" class="social-tooltip" title="Google+" href="https://plus.google.com/101049688653487009744" target="Array"><i class="fa fa-google-plus" style="color: #db4a39;"></i></a></li><li><a rel="nofollow" class="social-tooltip" title="Feedly" href="http://feedly.com/i/subscription/feed/http://www.tecmint.com/feed/" target="Array"><i class="fa fa-rss" style="color: #87c040;"></i></a></li><li><a rel="nofollow" class="social-tooltip" title="Youtube" href="https://www.youtube.com/channel/UCkiRkzdLvoGBtW_YArytJlQ" target="Array"><i class="fa fa fa-youtube-square" style="color: #c4302b;"></i></a></li></ul>			</div>
+			
+						
+						
+						
+			<div id="text-23" class="widget widget_text">			<div class="textwidget">  <div style="background:#db4455;" class="message">
+     <center><a href="http://www.tecmint.com/free-online-linux-learning-guide-for-beginners/" target="_blank"><span style="font-weight:bold;font-size:18px;"><i class="fa fa-linux"></i> BEGINNER'S GUIDE FOR LINUX <i class="fa fa-linux"></i></span> <span style="font-weight:bold;font-size:16px;">Start learning Linux in minutes</span> <i class="fa fa-arrow-right"></i></a>
+ </center>
+</div></div>
+		</div><div id="text-21" class="widget widget_text">			<div class="textwidget"><center>
+<!-- Sidebar Top Ad 300x250 -->
+<ins class="adsbygoogle" style="display:inline-block;width:300px;height:250px" data-ad-client="ca-pub-2601749019656699" data-ad-slot="7270921771"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+</center></div>
+		</div><div id="text-25" class="widget widget_text">			<div class="textwidget"><div class="message"><center><a href="http://www.tecmint.com/vi-editor-usage/" target="_blank"><span style="font-weight:bold;font-size:17px;"><i class="fa fa-linux"></i> Vi/Vim Editor BEGINNER'S GUIDE <i class="fa fa-linux"></i></span> <span style="font-weight:bold;font-size:16px;">Learn vi/vim as a Full Text Editor</span> <i class="fa fa-file-text"></i>
+</a></center></div></div>
+		</div><div id="text-24" class="widget widget_text">			<div class="textwidget"><span style="float:right; text-decoration:underline"><a onclick="ga(&#39;send&#39;,&#39;event&#39;,&#39;Advertise Here&#39;,&#39;www.tecmint.com&#39;)" target="_blank" href="http://www.tecmint.com/advertise/">Advertise Here</a></span>
+<script type="text/javascript"><!--
+	e9 = new Object();
+    e9.size = "300x250";
+//--></script>
+<script type="text/javascript" src="http://tags.expo9.exponential.com/tags/TecMintcom/ROS/tags.js"></script>
+</div>
+		</div><div id="text-26" class="widget widget_text">			<div class="textwidget"><div style="background-color: #ab0619;" class="message"><center><a target="_blank" href="http://www.tecmint.com/how-to-setup-and-configure-static-network-routing-in-rhel/"><span style="font-weight:bold;font-size:17px;"><i class="fa fa-linux"></i> RHCSA/RHCE Certification Guide <i class="fa fa-linux"></i></span> <span style="font-weight:bold;font-size:16px;">Hands-on Study Guide to RedHat Exam</span> <i class="fa fa-file-text"></i>
+</a></center></div></div>
+		</div><div id="text-3" class="widget widget_text">			<div class="textwidget"><div class="ads-sidebar-desktop">
+<center>
+<!-- SideBar2 Ads 300x600 -->
+<ins class="adsbygoogle" style="display:inline-block;width:300px;height:600px" data-ad-client="ca-pub-2601749019656699" data-ad-slot="9098920170"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+</center>
+</div></div>
+		</div><div id="alxtabs-2" class="widget widget_alx_tabs">
+<ul class="alx-tabs-nav group tab-count-2"><li class="alx-tab tab-popular active"><a href="http://www.tecmint.com/create-raid-5-in-linux/#tab-popular" title="Popular Posts"><i class="fa fa-star"></i><span>Popular Posts</span></a></li><li class="alx-tab tab-comments"><a href="http://www.tecmint.com/create-raid-5-in-linux/#tab-comments" title="Recent Comments"><i class="fa fa-comments-o"></i><span>Recent Comments</span></a></li></ul>
+	<div class="alx-tabs-container">
+
+	
+		
+
+						
+						<ul id="tab-popular" class="alx-tab group " style="display: block;">
+				
+								<li>
+				
+										
+					<div class="tab-item-inner group">
+												<p class="tab-item-title"><a href="http://www.tecmint.com/how-to-add-linux-host-to-nagios-monitoring-server/" rel="bookmark" title="How to Add Linux Host to Nagios Monitoring Server Using NRPE Plugin">How to Add Linux Host to Nagios Monitoring Server Using NRPE Plugin</a></p>
+											</div>
+					
+				</li>
+								<li>
+				
+										
+					<div class="tab-item-inner group">
+												<p class="tab-item-title"><a href="http://www.tecmint.com/install-nagios-in-linux/" rel="bookmark" title="Nagios 4.0.1 Released – Install on RHEL/CentOS 6.x/5.x and Fedora 19/18/17">Nagios 4.0.1 Released – Install on RHEL/CentOS 6.x/5.x and Fedora 19/18/17</a></p>
+											</div>
+					
+				</li>
+								<li>
+				
+										
+					<div class="tab-item-inner group">
+												<p class="tab-item-title"><a href="http://www.tecmint.com/install-google-chrome-on-redhat-centos-fedora-linux/" rel="bookmark" title="Google Chrome 46 Released – Install on RHEL/CentOS 7/6 and Fedora 23-15">Google Chrome 46 Released – Install on RHEL/CentOS 7/6 and Fedora 23-15</a></p>
+											</div>
+					
+				</li>
+								<li>
+				
+										
+					<div class="tab-item-inner group">
+												<p class="tab-item-title"><a href="http://www.tecmint.com/install-cacti-network-monitoring-on-rhel-centos-6-3-5-8-and-fedora-17-12/" rel="bookmark" title="Install Cacti (Network Monitoring) on RHEL/CentOS 7.x/6.x/5.x and Fedora 21-12">Install Cacti (Network Monitoring) on RHEL/CentOS 7.x/6.x/5.x and Fedora 21-12</a></p>
+											</div>
+					
+				</li>
+								<li>
+				
+										
+					<div class="tab-item-inner group">
+												<p class="tab-item-title"><a href="http://www.tecmint.com/install-wine-in-rhel-centos-and-fedora/" rel="bookmark" title="Wine 1.8 Released After 17 Months of Development – Install on RHEL/CentOS and Fedora">Wine 1.8 Released After 17 Months of Development – Install on RHEL/CentOS and Fedora</a></p>
+											</div>
+					
+				</li>
+								<li>
+				
+										
+					<div class="tab-item-inner group">
+												<p class="tab-item-title"><a href="http://www.tecmint.com/install-apache-mysql-php-on-redhat-centos-fedora/" rel="bookmark" title="Install Apache 2.2.15, MySQL 5.5.34 &amp; PHP 5.5.4 on RHEL/CentOS 6.4/5.9 &amp; Fedora 19-12">Install Apache 2.2.15, MySQL 5.5.34 &amp; PHP 5.5.4 on RHEL/CentOS 6.4/5.9 &amp; Fedora 19-12</a></p>
+											</div>
+					
+				</li>
+							</ul><!--/.alx-tab-->
+			
+			
+
+		
+						
+			<ul id="tab-comments" class="alx-tab group avatars-enabled" style="display: none;">
+								<li>
+					
+												<div class="tab-item-avatar">
+							<a href="http://www.tecmint.com/linux-server-health-monitoring-script/comment-page-5/#comment-745549">
+								<img alt="" src="./Creating RAID 5 (Striping with Distributed Parity) in Linux - Part 4_files/7badddbc53297b2e8ed7011cf45df0c0" srcset="http://1.gravatar.com/avatar/7badddbc53297b2e8ed7011cf45df0c0?s=192&amp;d=blank&amp;r=g 2x" class="avatar avatar-96 photo" height="96" width="96" data-lazy-loaded="true" style="display: block;"><noscript>&lt;img alt='' src="http://1.gravatar.com/avatar/7badddbc53297b2e8ed7011cf45df0c0?s=96&amp;#038;d=blank&amp;#038;r=g" srcset='http://1.gravatar.com/avatar/7badddbc53297b2e8ed7011cf45df0c0?s=192&amp;amp;d=blank&amp;amp;r=g 2x' class='avatar avatar-96 photo' height='96' width='96' /&gt;</noscript>							</a>
+						</div>
+												
+						<div class="tab-item-inner group">
+												
+							<div class="tab-item-name">Ravi Saive says:</div>
+							<div class="tab-item-comment"><a href="http://www.tecmint.com/linux-server-health-monitoring-script/comment-page-5/#comment-745549">@Omah,  That means, you need to install curl package using...</a></div>
+							
+						</div>
+
+				</li>
+								<li>
+					
+												<div class="tab-item-avatar">
+							<a href="http://www.tecmint.com/things-i-dislike-and-love-about-gnu-linux/comment-page-2/#comment-745531">
+								<img alt="" src="./Creating RAID 5 (Striping with Distributed Parity) in Linux - Part 4_files/e718302f19a8c2dfeda2021f5b1dc1b5" srcset="http://2.gravatar.com/avatar/e718302f19a8c2dfeda2021f5b1dc1b5?s=192&amp;d=blank&amp;r=g 2x" class="avatar avatar-96 photo" height="96" width="96" data-lazy-loaded="true" style="display: block;"><noscript>&lt;img alt='' src="http://2.gravatar.com/avatar/e718302f19a8c2dfeda2021f5b1dc1b5?s=96&amp;#038;d=blank&amp;#038;r=g" srcset='http://2.gravatar.com/avatar/e718302f19a8c2dfeda2021f5b1dc1b5?s=192&amp;amp;d=blank&amp;amp;r=g 2x' class='avatar avatar-96 photo' height='96' width='96' /&gt;</noscript>							</a>
+						</div>
+												
+						<div class="tab-item-inner group">
+												
+							<div class="tab-item-name">Clark Leach says:</div>
+							<div class="tab-item-comment"><a href="http://www.tecmint.com/things-i-dislike-and-love-about-gnu-linux/comment-page-2/#comment-745531">I agree wholeheartedly with #5.  Even on a relatively new...</a></div>
+							
+						</div>
+
+				</li>
+								<li>
+					
+												<div class="tab-item-avatar">
+							<a href="http://www.tecmint.com/audit-network-performance-security-and-troubleshooting-in-linux/comment-page-1/#comment-745497">
+								<img alt="" src="./Creating RAID 5 (Striping with Distributed Parity) in Linux - Part 4_files/144d9ce1fa244416b1fe639df3479279" srcset="http://1.gravatar.com/avatar/144d9ce1fa244416b1fe639df3479279?s=192&amp;d=blank&amp;r=g 2x" class="avatar avatar-96 photo" height="96" width="96" data-lazy-loaded="true" style="display: block;"><noscript>&lt;img alt='' src="http://1.gravatar.com/avatar/144d9ce1fa244416b1fe639df3479279?s=96&amp;#038;d=blank&amp;#038;r=g" srcset='http://1.gravatar.com/avatar/144d9ce1fa244416b1fe639df3479279?s=192&amp;amp;d=blank&amp;amp;r=g 2x' class='avatar avatar-96 photo' height='96' width='96' /&gt;</noscript>							</a>
+						</div>
+												
+						<div class="tab-item-inner group">
+												
+							<div class="tab-item-name">Karn says:</div>
+							<div class="tab-item-comment"><a href="http://www.tecmint.com/audit-network-performance-security-and-troubleshooting-in-linux/comment-page-1/#comment-745497">@Gabriel ,  You have nicely explained the use of ss...</a></div>
+							
+						</div>
+
+				</li>
+								<li>
+					
+												<div class="tab-item-avatar">
+							<a href="http://www.tecmint.com/linux-server-health-monitoring-script/comment-page-5/#comment-745478">
+								<img alt="" src="./Creating RAID 5 (Striping with Distributed Parity) in Linux - Part 4_files/0e8dc514473bb21fa6fd942f4e02dcbf" srcset="http://0.gravatar.com/avatar/0e8dc514473bb21fa6fd942f4e02dcbf?s=192&amp;d=blank&amp;r=g 2x" class="avatar avatar-96 photo" height="96" width="96" data-lazy-loaded="true" style="display: block;"><noscript>&lt;img alt='' src="http://0.gravatar.com/avatar/0e8dc514473bb21fa6fd942f4e02dcbf?s=96&amp;#038;d=blank&amp;#038;r=g" srcset='http://0.gravatar.com/avatar/0e8dc514473bb21fa6fd942f4e02dcbf?s=192&amp;amp;d=blank&amp;amp;r=g 2x' class='avatar avatar-96 photo' height='96' width='96' /&gt;</noscript>							</a>
+						</div>
+												
+						<div class="tab-item-inner group">
+												
+							<div class="tab-item-name">Omah Linux says:</div>
+							<div class="tab-item-comment"><a href="http://www.tecmint.com/linux-server-health-monitoring-script/comment-page-5/#comment-745478">On Xubuntu 14.04.3, I found "/usr/bin/monitor: line 79: curl: command not...</a></div>
+							
+						</div>
+
+				</li>
+								<li>
+					
+												<div class="tab-item-avatar">
+							<a href="http://www.tecmint.com/linux-server-hardening-security-tips/comment-page-4/#comment-745472">
+								<img alt="" src="./Creating RAID 5 (Striping with Distributed Parity) in Linux - Part 4_files/d13aa98f58d60ac5459391c1c5365973" srcset="http://1.gravatar.com/avatar/d13aa98f58d60ac5459391c1c5365973?s=192&amp;d=blank&amp;r=g 2x" class="avatar avatar-96 photo" height="96" width="96" data-lazy-loaded="true" style="display: block;"><noscript>&lt;img alt='' src="http://1.gravatar.com/avatar/d13aa98f58d60ac5459391c1c5365973?s=96&amp;#038;d=blank&amp;#038;r=g" srcset='http://1.gravatar.com/avatar/d13aa98f58d60ac5459391c1c5365973?s=192&amp;amp;d=blank&amp;amp;r=g 2x' class='avatar avatar-96 photo' height='96' width='96' /&gt;</noscript>							</a>
+						</div>
+												
+						<div class="tab-item-inner group">
+												
+							<div class="tab-item-name">Sothy says:</div>
+							<div class="tab-item-comment"><a href="http://www.tecmint.com/linux-server-hardening-security-tips/comment-page-4/#comment-745472">Great post.   Thanks for this post. I am using...</a></div>
+							
+						</div>
+
+				</li>
+								<li>
+					
+												<div class="tab-item-avatar">
+							<a href="http://www.tecmint.com/python-simplehttpserver-to-create-webserver-or-serve-files-instantly/comment-page-1/#comment-745310">
+								<img alt="" src="./Creating RAID 5 (Striping with Distributed Parity) in Linux - Part 4_files/07b387f9462dd3011d2de479c4214036" srcset="http://0.gravatar.com/avatar/07b387f9462dd3011d2de479c4214036?s=192&amp;d=blank&amp;r=g 2x" class="avatar avatar-96 photo" height="96" width="96" data-lazy-loaded="true" style="display: block;"><noscript>&lt;img alt='' src="http://0.gravatar.com/avatar/07b387f9462dd3011d2de479c4214036?s=96&amp;#038;d=blank&amp;#038;r=g" srcset='http://0.gravatar.com/avatar/07b387f9462dd3011d2de479c4214036?s=192&amp;amp;d=blank&amp;amp;r=g 2x' class='avatar avatar-96 photo' height='96' width='96' /&gt;</noscript>							</a>
+						</div>
+												
+						<div class="tab-item-inner group">
+												
+							<div class="tab-item-name">Obaidulla says:</div>
+							<div class="tab-item-comment"><a href="http://www.tecmint.com/python-simplehttpserver-to-create-webserver-or-serve-files-instantly/comment-page-1/#comment-745310">Thanks a lot and like to see more python solution.</a></div>
+							
+						</div>
+
+				</li>
+							</ul><!--/.alx-tab-->
+
+		
+			</div>
+
+</div>
+<div id="text-27" class="widget widget_text">			<div class="textwidget"><center>
+<a rel="nofollow" target="_blank" href="https://deals.tecmint.com/sales/increase-web-security-protection-w-the-white-hat-hacker-bundle?utm_source=Tecmint.com&amp;utm_medium=referral&amp;utm_campaign=increase-web-security-protection-w-the-white-hat-hacker-bundle"><img src="./Creating RAID 5 (Striping with Distributed Parity) in Linux - Part 4_files/White-Hacker-Bundle-Course.png"></a>
+</center></div>
+		</div><div id="text-4" class="widget widget_text"><h3>Download Free Linux eBooks</h3>			<div class="textwidget"><ol>
+<li><a onclick="ga(&#39;send&#39;,&#39;event&#39;,&#39;Linux Command Line Cheat Sheet&#39;,&#39;tecmint.tradepub.com&#39;)" href="http://tecmint.tradepub.com/free/w_makb09/prgm.cgi" rel="nofollow" target="_blank">Complete Linux Command Line Cheat Sheet</a></li>
+<li><a onclick="ga(&#39;send&#39;,&#39;event&#39;,&#39;The GNU/Linux Advanced Administration Guide&#39;,&#39;tecmint.tradepub.com&#39;)" href="http://tecmint.tradepub.com/free/w_free01/prgm.cgi" rel="nofollow" target="_blank">The GNU/Linux Advanced Administration Guide</a></li>
+<li><a onclick="ga(&#39;send&#39;,&#39;event&#39;,&#39;Securing &amp; Optimizing Linux&#39;,&#39;tecmint.tradepub.com&#39;)" href="http://tecmint.tradepub.com/free/w_opeb01/prgm.cgi" rel="nofollow" target="_blank">Securing &amp; Optimizing Linux Servers</a></li>
+<li><a onclick="ga(&#39;send&#39;,&#39;event&#39;,&#39;Linux Patch Management&#39;,&#39;tecmint.tradepub.com&#39;)" href="http://tecmint.tradepub.com/free/w_infk12/prgm.cgi" rel="nofollow" target="_blank">Linux Patch Management: Keeping Linux Up To Date</a></li>
+<li><a onclick="ga(&#39;send&#39;,&#39;event&#39;,&#39;Introduction to Linux - A Hands on Guide&#39;,&#39;tecmint.tradepub.com&#39;)" href="http://tecmint.tradepub.com/free/w_mach01/prgm.cgi" rel="nofollow" target="_blank">Introduction to Linux – A Hands on Guide</a></li>
+<li><a onclick="ga(&#39;send&#39;,&#39;event&#39;,&#39;Understanding the Linux - Virtual Memory Manager&#39;,&#39;tecmint.tradepub.com&#39;)" href="http://tecmint.tradepub.com/free/w_infk10/prgm.cgi" rel="nofollow" target="_blank">Understanding the Linux® Virtual Memory Manager</a></li>
+<li><a onclick="ga(&#39;send&#39;,&#39;event&#39;,&#39;Linux Bible&#39;,&#39;tecmint.tradepub.com&#39;)" href="http://tecmint.tradepub.com/free/w_wile13/prgm.cgi" rel="nofollow" target="_blank">Linux Bible – Packed with Updates and Exercises</a></li>
+<li><a onclick="ga(&#39;send&#39;,&#39;event&#39;,&#39;A Newbie’s Getting Started Guide&#39;,&#39;tecmint.tradepub.com&#39;)" href="http://tecmint.tradepub.com/free/w_make07/prgm.cgi" rel="nofollow" target="_blank">A Newbie’s Getting Started Guide to Linux</a></li>
+<li><a onclick="ga(&#39;send&#39;,&#39;event&#39;,&#39;Linux from Scratch&#39;,&#39;tecmint.tradepub.com&#39;)" href="http://tecmint.tradepub.com/free/w_linu01/prgm.cgi" rel="nofollow" target="_blank">Linux from Scratch – Create Your Own Linux OS</a></li>
+<li><a onclick="ga(&#39;send&#39;,&#39;event&#39;,&#39;Linux Shell Scripting Cookbook&#39;,&#39;tecmint.tradepub.com&#39;)" href="http://tecmint.tradepub.com/free/w_pack42/prgm.cgi" rel="nofollow" target="_blank">Linux Shell Scripting Cookbook, Second Edition</a></li>
+<li><a onclick="ga(&#39;send&#39;,&#39;event&#39;,&#39;Securing and Optimizing Linux&#39;,&#39;tecmint.tradepub.com&#39;)" href="http://tecmint.tradepub.com/free/w_opeb01/prgm.cgi" rel="nofollow" target="_blank">Securing &amp; Optimizing Linux: The Hacking Solution</a></li>
+<li><a onclick="ga(&#39;send&#39;,&#39;event&#39;,&#39;User Mode Linux&#39;,&#39;tecmint.tradepub.com&#39;)" href="http://tecmint.tradepub.com/free/w_infk09/prgm.cgi" rel="nofollow" target="_blank">User Mode Linux – Understanding and Administration</a></li>
+</ol></div>
+		</div>			
+		</div><!--/.sidebar-content-->
+		
+	</div><!--/.sidebar-->
+
+		
+
+				</div><!--/.main-inner-->
+			</div><!--/.main-->			
+		</div><!--/.container-inner-->
+	</div><!--/.container-->
+
+	<footer id="footer">
+		
+				<section class="container" id="footer-ads">
+			<div class="container-inner">
+							</div><!--/.container-inner-->
+		</section><!--/.container-->
+				
+				
+		<section class="container" id="footer-widgets">
+			<div class="container-inner">
+				
+				<div class="pad group">
+																
+					<div class="footer-widget-1 grid one-third ">
+						<div id="alxposts-3" class="widget widget_alx_posts">
+<h3>Linux Monitoring Tools</h3>
+			
+	<ul class="alx-posts group ">
+				<li>
+			
+						
+			<div class="post-item-inner group">
+								<p class="post-item-title"><a href="http://www.tecmint.com/how-to-monitor-user-activity-with-psacct-or-acct-tools/" rel="bookmark" title="How to Monitor User Activity with psacct or acct Tools">How to Monitor User Activity with psacct or acct Tools</a></p>
+				<p class="post-item-date">14 Feb, 2013</p>			</div>
+			
+		</li>
+				<li>
+			
+						
+			<div class="post-item-inner group">
+								<p class="post-item-title"><a href="http://www.tecmint.com/mytop-mysql-database-monitoring-in-rhel-centos-fedora/" rel="bookmark" title="Mytop (MySQL Database Monitoring) in RHEL/CentOS 6.3/5.6 and Fedora 17/12">Mytop (MySQL Database Monitoring) in RHEL/CentOS 6.3/5.6 and Fedora 17/12</a></p>
+				<p class="post-item-date">8 Nov, 2012</p>			</div>
+			
+		</li>
+				<li>
+			
+						
+			<div class="post-item-inner group">
+								<p class="post-item-title"><a href="http://www.tecmint.com/install-web-vmstat-in-linux/" rel="bookmark" title="Web VMStat: A Real Time System Statistics (Memory, CPU, Processess, etc) Monitoring Tool for Linux">Web VMStat: A Real Time System Statistics (Memory, CPU, Processess, etc) Monitoring Tool for Linux</a></p>
+				<p class="post-item-date">23 Jun, 2014</p>			</div>
+			
+		</li>
+				<li>
+			
+						
+			<div class="post-item-inner group">
+								<p class="post-item-title"><a href="http://www.tecmint.com/install-and-configure-zabbix-agents-on-centos-redhat-and-debian/" rel="bookmark" title="How to Install and Configure Zabbix Agents on Remote Linux Systems – Part 3">How to Install and Configure Zabbix Agents on Remote Linux Systems – Part 3</a></p>
+				<p class="post-item-date">9 Oct, 2015</p>			</div>
+			
+		</li>
+			</ul><!--/.alx-posts-->
+
+</div>
+					</div>
+					
+																						
+					<div class="footer-widget-2 grid one-third ">
+						<div id="alxposts-4" class="widget widget_alx_posts">
+<h3>Linux Interview Questions</h3>
+			
+	<ul class="alx-posts group ">
+				<li>
+			
+						
+			<div class="post-item-inner group">
+								<p class="post-item-title"><a href="http://www.tecmint.com/ftp-interview-questions-and-answers/" rel="bookmark" title="10 VsFTP (Very Secure File Transfer Protocol) Interview Questions and Answers">10 VsFTP (Very Secure File Transfer Protocol) Interview Questions and Answers</a></p>
+				<p class="post-item-date">3 Feb, 2014</p>			</div>
+			
+		</li>
+				<li>
+			
+						
+			<div class="post-item-inner group">
+								<p class="post-item-title"><a href="http://www.tecmint.com/ls-interview-questions/" rel="bookmark" title="10 Useful ‘ls’ Command Interview Questions – Part 2">10 Useful ‘ls’ Command Interview Questions – Part 2</a></p>
+				<p class="post-item-date">7 Mar, 2015</p>			</div>
+			
+		</li>
+				<li>
+			
+						
+			<div class="post-item-inner group">
+								<p class="post-item-title"><a href="http://www.tecmint.com/ssh-interview-questions/" rel="bookmark" title="10 Useful SSH (Secure Shell) Interview Questions and Answers">10 Useful SSH (Secure Shell) Interview Questions and Answers</a></p>
+				<p class="post-item-date">15 Mar, 2014</p>			</div>
+			
+		</li>
+				<li>
+			
+						
+			<div class="post-item-inner group">
+								<p class="post-item-title"><a href="http://www.tecmint.com/apache-interview-questions/" rel="bookmark" title="25 Apache Interview Questions for Beginners and Intermediates">25 Apache Interview Questions for Beginners and Intermediates</a></p>
+				<p class="post-item-date">8 Jan, 2014</p>			</div>
+			
+		</li>
+			</ul><!--/.alx-posts-->
+
+</div>
+					</div>
+					
+																						
+					<div class="footer-widget-3 grid one-third last">
+						<div id="alxposts-5" class="widget widget_alx_posts">
+<h3>Open Source Tools</h3>
+			
+	<ul class="alx-posts group ">
+				<li>
+			
+						
+			<div class="post-item-inner group">
+								<p class="post-item-title"><a href="http://www.tecmint.com/what-if-linus-torvalds-would-have-accepted-job-proposal-of-steve-jobs/" rel="bookmark" title="What if Linus Torvalds Would Have Accepted Job Proposal of Steve Jobs?">What if Linus Torvalds Would Have Accepted Job Proposal of Steve Jobs?</a></p>
+				<p class="post-item-date">12 Feb, 2014</p>			</div>
+			
+		</li>
+				<li>
+			
+						
+			<div class="post-item-inner group">
+								<p class="post-item-title"><a href="http://www.tecmint.com/gnome-do-an-intelligent-launcher-tool-for-debianubuntulinux-mint/" rel="bookmark" title="Gnome Do – An Intelligent Launcher Tool for Debian/Ubuntu/Linux Mint">Gnome Do – An Intelligent Launcher Tool for Debian/Ubuntu/Linux Mint</a></p>
+				<p class="post-item-date">30 Nov, 2013</p>			</div>
+			
+		</li>
+				<li>
+			
+						
+			<div class="post-item-inner group">
+								<p class="post-item-title"><a href="http://www.tecmint.com/mount-google-drive-in-linux-using-google-drive-ocamlfuse-client/" rel="bookmark" title="How to Mount Google Drive in Linux Using “Google Drive OCamlfuse” Client">How to Mount Google Drive in Linux Using “Google Drive OCamlfuse” Client</a></p>
+				<p class="post-item-date">16 Jun, 2015</p>			</div>
+			
+		</li>
+				<li>
+			
+						
+			<div class="post-item-inner group">
+								<p class="post-item-title"><a href="http://www.tecmint.com/install-skype-4-0-for-rhel-centos-6-3-and-fedora-17-16/" rel="bookmark" title="Install Skype 4.0 for RHEL/CentOS 6.3 and Fedora 17/16">Install Skype 4.0 for RHEL/CentOS 6.3 and Fedora 17/16</a></p>
+				<p class="post-item-date">27 Aug, 2012</p>			</div>
+			
+		</li>
+			</ul><!--/.alx-posts-->
+
+</div>
+					</div>
+					
+															</div><!--/.pad-->
+				
+			</div><!--/.container-inner-->
+		</section><!--/.container-->	
+				
+					<nav class="nav-container group" id="nav-footer">
+				<div class="nav-toggle"><i class="fa fa-bars"></i></div>
+				<div class="nav-text"><!-- put your mobile menu text here --></div>
+				<div class="nav-wrap"><ul id="menu-footer" class="nav container group"><li id="menu-item-10442" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-10442"><a href="http://www.tecmint.com/advertise/">Advertise on TecMint</a></li>
+<li id="menu-item-10441" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-10441"><a href="http://www.tecmint.com/services/">Linux Services</a></li>
+<li id="menu-item-10435" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-10435"><a href="http://www.tecmint.com/copyright-policy/">Copyright Policy</a></li>
+<li id="menu-item-10436" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-10436"><a href="http://www.tecmint.com/privacy-policy/">Privacy Policy</a></li>
+<li id="menu-item-10437" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-10437"><a href="http://www.tecmint.com/contact-us/">Contact Us</a></li>
+<li id="menu-item-13339" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-13339"><a href="http://www.tecmint.com/career/">Career</a></li>
+<li id="menu-item-15143" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-15143"><a target="_blank" href="http://www.tecmint.com/linux-system-administration-jobs/">Linux Admin Jobs</a></li>
+</ul></div>
+			</nav><!--/#nav-footer-->
+				
+		<section class="container" id="footer-bottom">
+			<div class="container-inner">
+				
+				<a id="back-to-top" href="http://www.tecmint.com/create-raid-5-in-linux/#"><i class="fa fa-angle-up"></i></a>
+				
+				<div class="pad group">
+					
+					<div class="grid one-half">
+						
+												
+						<div id="copyright">
+															<p>Tecmint: Linux Howtos, Tutorials &amp; Guides © 2016. All Rights Reserved.</p>
+
+<p>This work is licensed under a <a href="http://creativecommons.org/licenses/by-nc/4.0/" rel="license"><b style="color:#ccc;">(cc) BY-NC</b></a></p>
+  <p>The material in this site cannot be republished either online or offline, without our permission.</p>
+													</div><!--/#copyright-->
+						
+												
+					</div>
+					
+					<div class="grid one-half last">	
+						<ul class="social-links"><li><a rel="nofollow" class="social-tooltip" title="twitter" href="http://twitter.com/tecmint" target="Array"><i class="fa fa-twitter" style="color: #33ccff;"></i></a></li><li><a rel="nofollow" class="social-tooltip" title="facebook" href="https://www.facebook.com/TecMint" target="Array"><i class="fa fa-facebook" style="color: #3b5998;"></i></a></li><li><a rel="nofollow" class="social-tooltip" title="Google+" href="https://plus.google.com/101049688653487009744" target="Array"><i class="fa fa-google-plus" style="color: #db4a39;"></i></a></li><li><a rel="nofollow" class="social-tooltip" title="Feedly" href="http://feedly.com/i/subscription/feed/http://www.tecmint.com/feed/" target="Array"><i class="fa fa-rss" style="color: #87c040;"></i></a></li><li><a rel="nofollow" class="social-tooltip" title="Youtube" href="https://www.youtube.com/channel/UCkiRkzdLvoGBtW_YArytJlQ" target="Array"><i class="fa fa fa-youtube-square" style="color: #c4302b;"></i></a></li></ul>					</div>
+				
+				</div><!--/.pad-->
+				
+			</div><!--/.container-inner-->
+		</section><!--/.container-->
+		
+	</footer><!--/#footer-->
+
+<!--/#wrapper-->
+
+<script type="text/javascript" src="./Creating RAID 5 (Striping with Distributed Parity) in Linux - Part 4_files/form.js"></script>
+<script type="text/javascript" src="./Creating RAID 5 (Striping with Distributed Parity) in Linux - Part 4_files/jquery.fancybox.pack.js"></script>
+<script type="text/javascript" src="./Creating RAID 5 (Striping with Distributed Parity) in Linux - Part 4_files/light.js"></script>
+<script type="text/javascript" src="./Creating RAID 5 (Striping with Distributed Parity) in Linux - Part 4_files/scripts.js"></script>
+<script type="text/javascript" src="./Creating RAID 5 (Striping with Distributed Parity) in Linux - Part 4_files/jquery.sharrre.min.js"></script>
+<script type="text/javascript" src="./Creating RAID 5 (Striping with Distributed Parity) in Linux - Part 4_files/comment-reply.min.js"></script>
+<script type="text/javascript" src="./Creating RAID 5 (Striping with Distributed Parity) in Linux - Part 4_files/jquery.sonar.min.js"></script>
+<script type="text/javascript" src="./Creating RAID 5 (Striping with Distributed Parity) in Linux - Part 4_files/lazy-load.js"></script>
+<script type="text/javascript" src="./Creating RAID 5 (Striping with Distributed Parity) in Linux - Part 4_files/wp-embed.min.js"></script>
+<!--[if lt IE 9]>
+<script src="http://www.tecmint.com/wp-content/themes/tecmint/js/ie/respond.js"></script>
+<![endif]-->
+
+<!--     ===== START Dreamgrow Scroll Triggered Box =====   -->
+
+<div class="dgd_stb_box clean_white" id="dgd_scrollbox-11027" style="padding: 10px; width: 300px; opacity: 1; bottom: 10px; right: 10px; display: block;"><a class="dgd_stb_box_close dgd_stb_box_x" href="javascript:void(0);"> </a><h5>Join Over 95000+ Linux Users</h5>
+<div id="social_sprite">
+<ol>
+<li><a href="https://www.facebook.com/TecMint" target="_blank"><span id="soc_fbuk" class="soc_icon"></span><span class="count">66,682</span></a></li>
+<li><a href="http://twitter.com/tecmint" target="_blank"><span id="soc_twitter" class="soc_icon"> </span><span class="count">3,836</span></a></li>
+<li><a href="https://plus.google.com/101049688653487009744" target="_blank"><span id="soc_gplus" class="soc_icon"> </span><span class="count">31,647</span></a></li>
+</ol>
+</div>
+<p>Enter your email to get latest Linux Howto's</p>
+<form class="stbContactForm" target="popupwindow" onsubmit="window.open(&#39;http://feedburner.google.com/fb/a/mailverify?uri=tecmint&#39;, &#39;popupwindow&#39;, &#39;scrollbars=yes,width=550,height=520&#39;);return true" method="post" action="http://feedburner.google.com/fb/a/mailverify"><input name="uri" type="hidden" value="tecmint"><input name="loc" type="hidden" value="en_US"><input type="text" value="Enter Your Email Address :)" onfocus="if (this.value == &quot;Enter Your Email Address :)&quot;) {this.value = &quot;&quot;;}" onblur="if (this.value == &quot;&quot;) {this.value = &quot;Enter Your Email Address :)&quot;;}" name="email"><input class="stb-submit" type="submit" value="Subscribe"></form>
+<p class="stbMsgArea">
+</p><link rel="stylesheet" type="text/css" href="./Creating RAID 5 (Striping with Distributed Parity) in Linux - Part 4_files/style(2).css"><ul class="stb_social"></ul></div>
+
+
+<!--     ===== END OF Dreamgrow Scroll Triggered Box =====   -->
+
+<script type="text/javascript" src="./Creating RAID 5 (Striping with Distributed Parity) in Linux - Part 4_files/element.js"></script>
+<div class="fixedBar">
+<div class="boxfloat">
+<ul id="tips">
+<li><a href="http://www.tecmint.com/51-useful-lesser-known-commands-for-linux-users/">51 Useful Lesser Known Commands for Linux Users</a></li>
+<li><a href="http://www.tecmint.com/linux-server-hardening-security-tips/">25 Hardening Security Tips for Linux Servers</a></li>
+<li><a href="http://www.tecmint.com/60-commands-of-linux-a-guide-from-newbies-to-system-administrator/">60 Commands of Linux : A Guide from Newbies to System Administrator</a></li>
+<li><a href="http://www.tecmint.com/command-line-tools-to-monitor-linux-performance/">20 Command Line Tools to Monitor Linux Performance</a></li>
+<li><a href="http://www.tecmint.com/18-tar-command-examples-in-linux/">18 Tar Command Examples in Linux</a></li>
+<li><a href="http://www.tecmint.com/20-linux-yum-yellowdog-updater-modified-commands-for-package-mangement/">20 Linux YUM (Yellowdog Updater, Modified) Commands</a></li>
+<li style="display: list-item;"><a href="http://www.tecmint.com/useful-basic-commands-of-apt-get-and-apt-cache-for-package-management/">25 Useful Basic Commands of APT-GET and APT-CACHE</a></li>
+<li><a href="http://www.tecmint.com/20-funny-commands-of-linux-or-linux-is-fun-in-terminal/">20 Funny Commands of Linux or Linux is Fun in Terminal</a></li>
+<li><a href="http://www.tecmint.com/35-practical-examples-of-linux-find-command/">35 Practical Examples of Linux Find Command</a></li>
+<li><a href="http://www.tecmint.com/sed-command-to-create-edit-and-manipulate-files-in-linux/">Preparation for the LFCS (Linux Fundation Certified SysAdmin) Exam</a></li>
+<li><a href="http://www.tecmint.com/installing-network-services-and-configuring-services-at-system-boot/">Preparation for the LFCE (Linux Fundation Certified Engineer) Exam</a></li>
+<li><a href="http://www.tecmint.com/10-useful-free-linux-ebooks-for-newbies-and-administrators/">10 Useful Free Linux eBooks for Newbies and Administrators</a></li>
+<li><a href="http://www.tecmint.com/free-linux-shell-scripting-books/">4 Free Shell Scripting eBooks for Newbies and Administrators</a></li>
+</ul>
+</div>
+</div><div id="goog-gt-tt" class="skiptranslate" dir="ltr"><div style="padding: 8px;"><div><div class="logo"><img src="./Creating RAID 5 (Striping with Distributed Parity) in Linux - Part 4_files/translate_24dp.png" width="20" height="20"></div></div></div><div class="top" style="padding: 8px; float: left; width: 100%;"><h1 class="title gray">Oorspronkelijke tekst</h1></div><div class="middle" style="padding: 8px;"><div class="original-text"></div></div><div class="bottom" style="padding: 8px;"><div class="activity-links"><span class="activity-link">Een betere vertaling bijdragen</span><span class="activity-link"></span></div><div class="started-activity-container"><hr style="color: #CCC; background-color: #CCC; height: 1px; border: none;"><div class="activity-root"></div></div></div><div class="status-message" style="display: none;"></div></div>
+
+</body></html>

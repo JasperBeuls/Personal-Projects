@@ -1,0 +1,91 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="BoekenDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityContainer Name="BoekenDBEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Voorkeuren" EntityType="BoekenDBModel.Voorkeur" />
+    <EntitySet Name="Gebruikers" EntityType="BoekenDBModel.Gebruiker" />
+    <AssociationSet Name="VoorkeurenGebruiker" Association="BoekenDBModel.VoorkeurenGebruiker">
+      <End Role="Voorkeuren" EntitySet="Voorkeuren" />
+      <End Role="Gebruiker" EntitySet="Gebruikers" />
+    </AssociationSet>
+    <EntitySet Name="Boekens" EntityType="BoekenDBModel.Boeken" />
+    <EntitySet Name="Auteurs" EntityType="BoekenDBModel.Auteur" />
+    <AssociationSet Name="FK_Boeken_Auteurs" Association="BoekenDBModel.FK_Boeken_Auteurs">
+      <End Role="Auteur" EntitySet="Auteurs" />
+      <End Role="Boeken" EntitySet="Boekens" />
+    </AssociationSet>
+    <AssociationSet Name="Voorkeuren1" Association="BoekenDBModel.Voorkeuren">
+      <End Role="Auteur" EntitySet="Auteurs" />
+      <End Role="Gebruiker" EntitySet="Gebruikers" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="Voorkeur">
+    <Key>
+      <PropertyRef Name="GebruikerID" />
+      <PropertyRef Name="AuteurID" />
+    </Key>
+    <Property Name="GebruikerID" Type="Int32" Nullable="false" />
+    <Property Name="AuteurID" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Gebruiker" Relationship="BoekenDBModel.VoorkeurenGebruiker" FromRole="Voorkeuren" ToRole="Gebruiker" />
+  </EntityType>
+  <EntityType Name="Gebruiker">
+    <Key>
+      <PropertyRef Name="GebruikerID" />
+    </Key>
+    <Property Name="GebruikerID" Type="Int32" Nullable="false" />
+    <Property Name="GebruikerNaam" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Paswoord" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="Voorkeuren" Relationship="BoekenDBModel.VoorkeurenGebruiker" FromRole="Gebruiker" ToRole="Voorkeuren" />
+    <NavigationProperty Name="Auteurs" Relationship="BoekenDBModel.Voorkeuren" FromRole="Gebruiker" ToRole="Auteur" />
+  </EntityType>
+  <Association Name="VoorkeurenGebruiker">
+    <End Type="BoekenDBModel.Voorkeur" Role="Voorkeuren" Multiplicity="*" />
+    <End Type="BoekenDBModel.Gebruiker" Role="Gebruiker" Multiplicity="1" />
+    <ReferentialConstraint>
+      <Principal Role="Gebruiker">
+        <PropertyRef Name="GebruikerID" />
+      </Principal>
+      <Dependent Role="Voorkeuren">
+        <PropertyRef Name="GebruikerID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="Boeken">
+    <Key>
+      <PropertyRef Name="ISBN" />
+    </Key>
+    <Property Name="ISBN" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Titel" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="AuteurID" Type="Int32" Nullable="false" />
+    <Property Name="Paginas" Type="Int32" Nullable="false" />
+    <Property Name="Genre" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Inhoud" Type="String" Nullable="false" MaxLength="5000" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="Auteur" Relationship="BoekenDBModel.FK_Boeken_Auteurs" FromRole="Boeken" ToRole="Auteur" />
+  </EntityType>
+  <EntityType Name="Auteur">
+    <Key>
+      <PropertyRef Name="AuteurID" />
+    </Key>
+    <Property Name="AuteurID" Type="Int32" Nullable="false" />
+    <Property Name="Achternaam" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Voornaam" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Biografie" Type="String" Nullable="false" MaxLength="5000" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="Boekens" Relationship="BoekenDBModel.FK_Boeken_Auteurs" FromRole="Auteur" ToRole="Boeken" />
+    <NavigationProperty Name="Gebruikers" Relationship="BoekenDBModel.Voorkeuren" FromRole="Auteur" ToRole="Gebruiker" />
+  </EntityType>
+  <Association Name="FK_Boeken_Auteurs">
+    <End Type="BoekenDBModel.Auteur" Role="Auteur" Multiplicity="1" />
+    <End Type="BoekenDBModel.Boeken" Role="Boeken" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Auteur">
+        <PropertyRef Name="AuteurID" />
+      </Principal>
+      <Dependent Role="Boeken">
+        <PropertyRef Name="AuteurID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="Voorkeuren">
+    <End Type="BoekenDBModel.Auteur" Role="Auteur" Multiplicity="*" />
+    <End Type="BoekenDBModel.Gebruiker" Role="Gebruiker" Multiplicity="*" />
+  </Association>
+</Schema>

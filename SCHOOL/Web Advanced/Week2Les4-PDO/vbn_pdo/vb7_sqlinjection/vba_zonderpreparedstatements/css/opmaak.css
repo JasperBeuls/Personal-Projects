@@ -1,0 +1,33 @@
+/* kaders: */
+/*
+div.tabel {border-style:dotted;border-width:1px;border-color:black;padding:2px;margin:2px;}
+div.tabel div.rij{border-style:dotted;border-width:1px;border-color:blue;padding:2px;margin:2px;}
+div.tabel div.titel{border-style:dotted;border-width:1px;border-color:green;padding:2px;margin:2px;}
+div.tabel div.invoer{border-style:dotted;border-width:1px;border-color:red;padding:2px;margin:2px;}
+*/
+
+
+/* breedte div.tabel instellen: */
+div.tabel {width:400px;}
+
+
+/* overflow: auto zie
+	http://webdesignerwall.com/tutorials/css-clearing-floats-with-overflow 
+	http://css-tricks.com/all-about-floats/
+   	om het effect te zien: maak de kader zichtbaar (zie boven) en verwijder onderstaande regel
+ */
+div.tabel div.rij{overflow:auto;}
+
+
+/* float titel en invoer naar links en stel de breedte in, 
+	text-align: 		http://www.w3schools.com/cssref/pr_text_text-align.asp  
+	vertical-align: 	http://www.w3schools.com/cssref/pr_pos_vertical-align.asp
+*/
+div.tabel div.titel{ float:left; width:20%; text-align:right; vertical-align:top; padding:1px; margin:1px;  }
+div.tabel div.invoer{ float:left; width:75%; text-align:left; vertical-align:top; padding:1px; margin:1px; }
+
+
+/*  http://net.tutsplus.com/tutorials/html-css-techniques/the-30-css-selectors-you-must-memorize/  */
+div.tabel div.invoer input[type="text"]{width:95%;}
+div.tabel div.invoer input[type="password"]{width:95%;}
+

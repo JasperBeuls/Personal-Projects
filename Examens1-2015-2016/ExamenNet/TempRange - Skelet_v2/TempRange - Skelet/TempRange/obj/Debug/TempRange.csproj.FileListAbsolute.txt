@@ -1,0 +1,10 @@
+C:\PHL\Lessen\2TIN\2015-2016\.NET Adv\Examen\Final\TempRange\TempRange\bin\Debug\TempRange.dll
+C:\PHL\Lessen\2TIN\2015-2016\.NET Adv\Examen\Final\TempRange\TempRange\bin\Debug\TempRange.pdb
+C:\PHL\Lessen\2TIN\2015-2016\.NET Adv\Examen\Final\TempRange\TempRange\obj\Debug\TempRange.csprojResolveAssemblyReference.cache
+C:\PHL\Lessen\2TIN\2015-2016\.NET Adv\Examen\Final\TempRange\TempRange\obj\Debug\TempRange.dll
+C:\PHL\Lessen\2TIN\2015-2016\.NET Adv\Examen\Final\TempRange\TempRange\obj\Debug\TempRange.pdb
+C:\PHL\Lessen\2TIN\2015-2016\.NET Adv\Examen\Final\TempRange - Skelet\TempRange\bin\Debug\TempRange.dll
+C:\PHL\Lessen\2TIN\2015-2016\.NET Adv\Examen\Final\TempRange - Skelet\TempRange\bin\Debug\TempRange.pdb
+C:\PHL\Lessen\2TIN\2015-2016\.NET Adv\Examen\Final\TempRange - Skelet\TempRange\obj\Debug\TempRange.csprojResolveAssemblyReference.cache
+C:\PHL\Lessen\2TIN\2015-2016\.NET Adv\Examen\Final\TempRange - Skelet\TempRange\obj\Debug\TempRange.dll
+C:\PHL\Lessen\2TIN\2015-2016\.NET Adv\Examen\Final\TempRange - Skelet\TempRange\obj\Debug\TempRange.pdb

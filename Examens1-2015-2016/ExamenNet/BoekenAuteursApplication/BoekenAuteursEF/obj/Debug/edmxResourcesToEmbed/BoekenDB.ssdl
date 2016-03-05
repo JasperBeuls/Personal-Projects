@@ -1,0 +1,93 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="BoekenDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="Auteurs">
+    <Key>
+      <PropertyRef Name="AuteurID" />
+    </Key>
+    <Property Name="AuteurID" Type="int" Nullable="false" />
+    <Property Name="Achternaam" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="Voornaam" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="Biografie" Type="varchar" MaxLength="5000" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Boeken">
+    <Key>
+      <PropertyRef Name="ISBN" />
+    </Key>
+    <Property Name="ISBN" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="Titel" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="AuteurID" Type="int" Nullable="false" />
+    <Property Name="Paginas" Type="int" Nullable="false" />
+    <Property Name="Genre" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="Inhoud" Type="varchar" MaxLength="5000" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Gebruikers">
+    <Key>
+      <PropertyRef Name="GebruikerID" />
+    </Key>
+    <Property Name="GebruikerID" Type="int" Nullable="false" />
+    <Property Name="GebruikerNaam" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="Paswoord" Type="varchar" MaxLength="50" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Voorkeuren">
+    <Key>
+      <PropertyRef Name="GebruikerID" />
+      <PropertyRef Name="AuteurID" />
+    </Key>
+    <Property Name="GebruikerID" Type="int" Nullable="false" />
+    <Property Name="AuteurID" Type="int" Nullable="false" />
+  </EntityType>
+  <Association Name="FK_Boeken_Auteurs">
+    <End Role="Auteurs" Type="Self.Auteurs" Multiplicity="1" />
+    <End Role="Boeken" Type="Self.Boeken" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Auteurs">
+        <PropertyRef Name="AuteurID" />
+      </Principal>
+      <Dependent Role="Boeken">
+        <PropertyRef Name="AuteurID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Voorkeuren_Auteurs">
+    <End Role="Auteurs" Type="Self.Auteurs" Multiplicity="1" />
+    <End Role="Voorkeuren" Type="Self.Voorkeuren" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Auteurs">
+        <PropertyRef Name="AuteurID" />
+      </Principal>
+      <Dependent Role="Voorkeuren">
+        <PropertyRef Name="AuteurID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Voorkeuren_Gebruikers">
+    <End Role="Gebruikers" Type="Self.Gebruikers" Multiplicity="1" />
+    <End Role="Voorkeuren" Type="Self.Voorkeuren" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Gebruikers">
+        <PropertyRef Name="GebruikerID" />
+      </Principal>
+      <Dependent Role="Voorkeuren">
+        <PropertyRef Name="GebruikerID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="BoekenDBModelStoreContainer">
+    <EntitySet Name="Auteurs" EntityType="Self.Auteurs" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Boeken" EntityType="Self.Boeken" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Gebruikers" EntityType="Self.Gebruikers" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Voorkeuren" EntityType="Self.Voorkeuren" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK_Boeken_Auteurs" Association="Self.FK_Boeken_Auteurs">
+      <End Role="Auteurs" EntitySet="Auteurs" />
+      <End Role="Boeken" EntitySet="Boeken" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Voorkeuren_Auteurs" Association="Self.FK_Voorkeuren_Auteurs">
+      <End Role="Auteurs" EntitySet="Auteurs" />
+      <End Role="Voorkeuren" EntitySet="Voorkeuren" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Voorkeuren_Gebruikers" Association="Self.FK_Voorkeuren_Gebruikers">
+      <End Role="Gebruikers" EntitySet="Gebruikers" />
+      <End Role="Voorkeuren" EntitySet="Voorkeuren" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

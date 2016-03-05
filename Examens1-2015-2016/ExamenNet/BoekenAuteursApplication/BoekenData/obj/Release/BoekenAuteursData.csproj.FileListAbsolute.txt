@@ -1,0 +1,4 @@
+C:\Users\20002650\Documents\PXL\DotNetAdvanced\Exam\2016\BoekenApplication\BoekenData\bin\Release\BoekenAuteursData.dll
+C:\Users\20002650\Documents\PXL\DotNetAdvanced\Exam\2016\BoekenApplication\BoekenData\bin\Release\BoekenAuteursData.pdb
+C:\Users\20002650\Documents\PXL\DotNetAdvanced\Exam\2016\BoekenApplication\BoekenData\obj\Release\BoekenAuteursData.dll
+C:\Users\20002650\Documents\PXL\DotNetAdvanced\Exam\2016\BoekenApplication\BoekenData\obj\Release\BoekenAuteursData.pdb

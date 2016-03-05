@@ -1,0 +1,70 @@
+nieuwe OS maken DEMO_RaidLVM
+Disk size: 5gig
+eerst finish
+nu disk toevoegen
+scsi disk, 5gig
+
+Taal na installatie:
+english, europe, belgium, united
+
+belgian keyboard
+geen encryptie
+
+Partitioning method: Manual
+
+eerste partitie
+yes
+free space
+create new
+volledige space
+primary
+use as
+physical volume for raid
+geen bootable flag
+done
+dit 2x uitvoeren
+
+configure software raid
+yes
+Create MD device
+Raid1
+continue
+continue
+beide disks selecteren
+enter
+finish
+
+Configure LVM
+yes
+Create volume group
+naam: volGroup00
+Dvices for the new volume group: enkel de bovenste
+yes
+create logical volume
+vanuit volGroup00
+logical volume name: LVOLswap
+size: 1gig
+
+Create logical volume
+vanuit volGroup00
+name: LVOLos
+de rest van de size is goed
+
+done
+
+onder lvlos staan
+enter
+use as
+ext4
+mount point
+/
+done
+
+swap partitie
+use as swap
+done
+
+finish
+yes
+
+LAMP aanduiden

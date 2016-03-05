@@ -1,0 +1,14 @@
+C:\Users\20002650\Documents\PXL\DotNetAdvanced\Exam\2016\BoekenApplication\Boeken3LagenModel\bin\Debug\Boeken3LagenModel.exe.config
+C:\Users\20002650\Documents\PXL\DotNetAdvanced\Exam\2016\BoekenApplication\Boeken3LagenModel\bin\Debug\Boeken3LagenModel.exe
+C:\Users\20002650\Documents\PXL\DotNetAdvanced\Exam\2016\BoekenApplication\Boeken3LagenModel\bin\Debug\Boeken3LagenModel.pdb
+C:\Users\20002650\Documents\PXL\DotNetAdvanced\Exam\2016\BoekenApplication\Boeken3LagenModel\obj\Debug\Boeken3LagenModel.csprojResolveAssemblyReference.cache
+C:\Users\20002650\Documents\PXL\DotNetAdvanced\Exam\2016\BoekenApplication\Boeken3LagenModel\obj\Debug\MainWindow.g.cs
+C:\Users\20002650\Documents\PXL\DotNetAdvanced\Exam\2016\BoekenApplication\Boeken3LagenModel\obj\Debug\App.g.cs
+C:\Users\20002650\Documents\PXL\DotNetAdvanced\Exam\2016\BoekenApplication\Boeken3LagenModel\obj\Debug\Boeken3LagenModel_MarkupCompile.cache
+C:\Users\20002650\Documents\PXL\DotNetAdvanced\Exam\2016\BoekenApplication\Boeken3LagenModel\obj\Debug\Boeken3LagenModel_MarkupCompile.lref
+C:\Users\20002650\Documents\PXL\DotNetAdvanced\Exam\2016\BoekenApplication\Boeken3LagenModel\obj\Debug\MainWindow.baml
+C:\Users\20002650\Documents\PXL\DotNetAdvanced\Exam\2016\BoekenApplication\Boeken3LagenModel\obj\Debug\Boeken3LagenModel.g.resources
+C:\Users\20002650\Documents\PXL\DotNetAdvanced\Exam\2016\BoekenApplication\Boeken3LagenModel\obj\Debug\Boeken3LagenModel.Properties.Resources.resources
+C:\Users\20002650\Documents\PXL\DotNetAdvanced\Exam\2016\BoekenApplication\Boeken3LagenModel\obj\Debug\Boeken3LagenModel.csproj.GenerateResource.Cache
+C:\Users\20002650\Documents\PXL\DotNetAdvanced\Exam\2016\BoekenApplication\Boeken3LagenModel\obj\Debug\Boeken3LagenModel.exe
+C:\Users\20002650\Documents\PXL\DotNetAdvanced\Exam\2016\BoekenApplication\Boeken3LagenModel\obj\Debug\Boeken3LagenModel.pdb
